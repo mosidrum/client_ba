@@ -12,4 +12,6 @@ export const onMobileScreen = (sizeOfScreen: string) => {
     window.addEventListener('resize', eventListener);
     return () => window.removeEventListener('resize', eventListener);
   }, [isMobile, sizeOfScreen]);
+  
+  return isMobile;
 };

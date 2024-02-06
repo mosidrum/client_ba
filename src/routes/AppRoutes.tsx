@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { paths } from '@routes/paths';
-import { LandingPage } from '@pages/Landing';
+import { HomePage, LandingPage } from '@pages/Landing';
 
-type Props = {};
-
-export const AppRoutes = (props: Props) => {
+export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path={paths.index} element={<LandingPage />} />
+      <Route path={paths.index} element={<LandingPage />}>
+        <Route path={paths.homepage} element={<HomePage />} />
+      </Route>
     </Routes>
   );
 };

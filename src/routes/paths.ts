@@ -4,5 +4,7 @@ export const paths: { [key: string]: string } = {
   articles: '/articles',
   pages: '/pages',
   pricing: '/pricing',
-  faq: '/faq'
+  faq: '/faq',
+  about: '/about',
+  contactus: '/contactus'
 };

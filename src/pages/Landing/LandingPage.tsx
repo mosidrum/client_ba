@@ -6,11 +6,11 @@ type Props = {};
 
 const LandingPage = (props: Props) => {
   return (
-    <div>
+    <>
       <Navbar />
       <Outlet />
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 
-export const onMobileScreen = (sizeOfScreen: string) => {
-  const [isMobile, setIsMobile] = useState(false);
+export const onMobileScreen = (query: string) => {
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    const check = window.matchMedia(sizeOfScreen);
-    if (check.matches !== isMobile) {
-      setIsMobile(check.matches);
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
     }
-    const eventListener = () => setIsMobile(check.matches);
-    window.addEventListener('resize', eventListener);
-    return () => window.removeEventListener('resize', eventListener);
-  }, [isMobile, sizeOfScreen]);
-  
-  return isMobile;
+    const listener = () => setMatches(media.matches);
+    window.addEventListener('resize', listener);
+    return () => window.removeEventListener('resize', listener);
+  }, [matches, query]);
+
+  return matches;
 };

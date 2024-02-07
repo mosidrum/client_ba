@@ -1,16 +1,11 @@
-import { FaBlog, FaBars, FaAngleDown } from 'react-icons/fa';
+import { FaBlog, FaBars, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { LiaTimesCircle } from 'react-icons/lia';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '@routes/paths';
 import { onMobileScreen } from '@hooks/onMobileScreen';
-
-export interface NavLink {
-  name: string;
-  path: string;
-  icon?: boolean;
-  dropdown?: NavLink[];
-}
+import { NavLink } from 'customTypes';
+import { MobileNavbar } from '@components/navbar';
 
 export const navLink: NavLink[] = [
   {
@@ -87,7 +82,7 @@ const Navbar = () => {
                 >
                   <div className="flex items-center gap-2">
                     <div>{link.name}</div>
-                    <div>{link.icon && <FaAngleDown />}</div>
+                    <div>{link.icon && (dropdown ? <FaAngleUp /> : <FaAngleDown />)}</div>
                   </div>
                   {link.icon && dropdown && (
                     <ul className="absolute top-full left-100 bg-white rounded-md shadow-lg">
@@ -110,47 +105,7 @@ const Navbar = () => {
           </nav>
         )}
       </header>
-      {menuClicked && (
-        <div className="fixed bg-background2 text-primary h-full mt-20 w-full p-10 transition-all duration-1000">
-          <nav className="flex items-center gap-14 flex-col justify-center m-auto h-3/4">
-            <ul className="flex flex-col items-center gap-10">
-              {navLink.map((link, index) => (
-                <li
-                  className="hover:cursor-pointer border-2 border-primary rounded-full py-1 px-8"
-                  key={index}
-                  onClick={() => {
-                    if (link.icon) {
-                      setDropdown(true);
-                    } else {
-                      navigate(paths[link.path]);
-                    }
-                  }}
-                >
-                  <div className="flex gap-2 items-center">
-                    <div>{link.name}</div>
-                    <div>{link.icon && <FaAngleDown />}</div>
-                  </div>
-                  {link.icon && dropdown && (
-                    <ul className="absolute top-full left-0 bg-white rounded-md shadow-lg">
-                      {link.dropdown &&
-                        link.dropdown.map((link, index) => (
-                          <li
-                            key={index}
-                            onClick={() => navigate(paths[link.path])}
-                            className="hover:bg-gray-200 px-4 py-2 cursor-pointer"
-                          >
-                            {link.name}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <button className={buttonStyle}>Sign In</button>
-          </nav>
-        </div>
-      )}
+      {menuClicked && <MobileNavbar navLink={navLink} buttonStyle={buttonStyle} />}
     </section>
   );
 };

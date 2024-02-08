@@ -6,6 +6,7 @@ import { paths } from '@routes/paths';
 import { onMobileScreen } from '@hooks/onMobileScreen';
 import { NavLink } from 'customTypes';
 import { MobileNavbar } from '@components/navbar';
+import { buttonStyle } from '@constants/styles';
 
 export const navLink: NavLink[] = [
   {
@@ -42,12 +43,10 @@ const Navbar = () => {
   const mobileScreen = onMobileScreen('(max-width: 768px)');
   const [menuClicked, setMenuClicked] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const buttonStyle =
-    'border-2 text-primary font-semibold border-primary rounded-full py-2 px-6 hover:bg-primary hover:text-white transition-all duration-300';
 
   return (
     <section>
-      <header className="w-full mx-auto py-4 px-12 flex justify-between gap-10 items-center shadow-2xl fixed top-0 z-10 bg-background2">
+      <header className="w-full mx-auto py-4 px-5 sm:px-5 lg:px-14 flex justify-between gap-10 items-center shadow-2xl fixed top-0 z-10 bg-background2">
         <div>
           <FaBlog className="w-10 h-10" />
         </div>

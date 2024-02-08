@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
     <section>
-      <header className="w-full mx-auto py-4 px-10 flex justify-between items-center shadow-2xl fixed top-0 z-10 bg-background2">
+      <header className="w-full mx-auto py-4 px-12 flex justify-between gap-10 items-center shadow-2xl fixed top-0 z-10 bg-background2">
         <div>
           <FaBlog className="w-10 h-10" />
         </div>

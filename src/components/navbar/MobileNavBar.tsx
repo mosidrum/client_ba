@@ -14,9 +14,9 @@ const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed z-50 bg-background2 text-primary h-full mt-16 w-full p-4 transition-all duration-1000">
-      <nav className="flex items-center gap-14 flex-col justify-center m-auto h-1/4">
-        <ul className="flex flex-col items-center gap-10">
+    <div className="fixed z-50 bg-background2 text-primary h-full -mt-20 w-full p-4 transition-all duration-1000">
+      <nav className="flex items-center gap-14 flex-col justify-center m-auto">
+        <ul className="flex flex-col items-center gap-10 mt-20">
           {navLink.map((link, index: number) => (
             <li
               className="hover:cursor-pointer border-2 border-primary rounded-full py-1 px-8 relative"

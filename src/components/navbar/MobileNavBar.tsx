@@ -15,7 +15,7 @@ const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
 
   return (
     <div className="fixed z-50 bg-background2 text-primary h-full mt-16 w-full p-4 transition-all duration-1000">
-      <nav className="flex items-center gap-14 flex-col justify-center m-auto h-3/4">
+      <nav className="flex items-center gap-14 flex-col justify-center m-auto h-1/4">
         <ul className="flex flex-col items-center gap-10">
           {navLink.map((link, index: number) => (
             <li

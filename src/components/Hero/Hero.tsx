@@ -1,10 +1,11 @@
+import React from 'react'
 import { images } from '@constants/images';
 import { TfiSearch } from 'react-icons/tfi';
-import React from 'react';
+
 
 const topics = ['Design', 'User Experience', 'User Interaction'];
 
-const Homepage = () => {
+const Hero = () => {
   return (
     <section className="container mt-36 mx-auto flex flex-col px-10 py-5 lg:flex-row">
       <div className="mt-10 lg:w-1/2">
@@ -50,6 +51,6 @@ const Homepage = () => {
       </div>
     </section>
   );
-};
+}
 
-export default Homepage;
+export default Hero

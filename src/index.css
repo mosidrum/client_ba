@@ -8,3 +8,7 @@ body {
   color: #7a1012;
   background: #fef5f6;
 }
+
+.custom-container {
+  max-width: 1400px;
+}

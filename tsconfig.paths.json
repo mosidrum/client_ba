@@ -10,7 +10,8 @@
       "@store/*": ["./store/*"],
       "@services/*": ["./services/*"],
       "@utils/*": ["./utils/*"],
-      "@routes/*": ["./routes/*"]
+      "@routes/*": ["./routes/*"],
+      "@customTypes/*": ["./customTypes/*"]
     }
   }
 }

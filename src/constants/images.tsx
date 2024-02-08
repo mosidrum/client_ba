@@ -1,7 +1,7 @@
 import Logo from "@assets/logo.svg";
-import MainImage from '@assets/blog-image.png';
+import Hero from '@assets/HeroImage.svg';
 
 export const images = {
   Logo,
-  MainImage
+  Hero
 }

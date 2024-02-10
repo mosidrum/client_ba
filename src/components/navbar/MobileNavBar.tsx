@@ -14,7 +14,7 @@ const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed z-50 bg-background2 text-primary h-full -mt-20 w-full p-4 transition-all duration-1000">
+    <div className="fixed z-50 bg-background2 text-primary h-full -mt-7 w-full p-4 transition-all duration-1000">
       <nav className="flex items-center gap-14 flex-col justify-center m-auto">
         <ul className="flex flex-col items-center gap-10 mt-20">
           {navLink.map((link, index: number) => (
@@ -26,6 +26,7 @@ const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
                   setDropdown(!dropdown);
                 } else {
                   navigate(paths[link.path]);
+
                 }
               }}
             >

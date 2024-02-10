@@ -1,18 +1,23 @@
 import { images } from '@constants/images';
 import { MdVerified } from 'react-icons/md';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { paths } from '@routes/paths';
 
 type Props = {
   classname: string;
 };
 
 const Card = (classname: Props) => {
+  const navigate = useNavigate();
+
   return (
     <div className={`rounded-xl overflow-hidden shadow-[0_3px_10px_rgb(0,0,0,0.2)] ${classname}`}>
       <img
         src={images.PostImage}
         alt="post image"
-        className="w-full object-cover object-center h-auto md:h- lg:h-48 xl:h-60"
+        className="w-full object-cover object-center h-auto md:h- lg:h-48 xl:h-60 hover:cursor-pointer"
+        onClick={() => navigate(paths.readArticle)}
       />
       <div className="p-5">
         <h2 className="font-bold text-primary2 text-2xl lg:text-[28px]">Future work</h2>

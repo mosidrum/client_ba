@@ -7,7 +7,7 @@ const topics = ['Design', 'User Experience', 'User Interaction'];
 
 const Hero = () => {
   return (
-    <section className="container mt-36 px-5 mx-auto flex flex-col lg:px-14 sm:px-5 py-5 lg:flex-row">
+    <section className="container pt-36 px-5 mx-auto flex flex-col lg:px-14 sm:px-5 py-5 lg:flex-row">
       <div className="mt-10 lg:w-1/2">
         <h1 className="font-roboto text-3xl text-center font-bold text-dark-soft md:text-5xl lg:text-4xl xl:text-5xl lg:text-left lg:max-w-[540px]">
           Peruse the most captivating articles

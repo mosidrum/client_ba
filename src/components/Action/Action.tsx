@@ -27,7 +27,7 @@ const Action = ({}: Props) => {
         ></path>
       </svg>
       <section className="relative bg-primary2 px-10">
-        <div className="container grid grid-cols-12 mx-auto py-10 md:pb-20 lg:place-items-center">
+        <div className="container grid grid-cols-12 mx-auto py-10 md:pb-5 lg:place-items-center">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="text-background2 font-bold text-2xl md:text-4xl md:text-center md:leading-normallg:text-left  ">
               Get stories in your email inbox
@@ -48,7 +48,7 @@ const Action = ({}: Props) => {
             </p>
           </div>
           <div className="col-span-12 hidden md:block md:order-first mb-[70px] lg:col-span-6 lg:order-last">
-            <div className='w-3/4 mx-auto relative'>
+            <div className="w-3/4 mx-auto relative">
               <div className=" w-full bg-background2 p-3 z-[1] relative rounded-xl">
                 <img
                   src={images.CallToAction}

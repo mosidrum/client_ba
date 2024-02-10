@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from './Card';
 import { FaArrowDown } from 'react-icons/fa';
 import { buttonStyle } from '@constants/styles';
+import Card from './Card';
 
 type Props = {};
 

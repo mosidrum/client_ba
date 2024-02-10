@@ -104,7 +104,7 @@ const Navbar = () => {
           </nav>
         )}
       </header>
-      {menuClicked && <MobileNavbar navLink={navLink} buttonStyle={buttonStyle} />}
+      {menuClicked && <MobileNavbar setMenuClicked={setMenuClicked} navLink={navLink} buttonStyle={buttonStyle} />}
     </section>
   );
 };

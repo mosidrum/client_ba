@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom';
 type Props = {
   navLink: NavLink[];
   buttonStyle: string;
+  setMenuClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
+const MobileNavBar = ({ navLink, buttonStyle, setMenuClicked }: Props) => {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ const MobileNavBar = ({ navLink, buttonStyle }: Props) => {
                   setDropdown(!dropdown);
                 } else {
                   navigate(paths[link.path]);
+                  setMenuClicked(false);
 
                 }
               }}

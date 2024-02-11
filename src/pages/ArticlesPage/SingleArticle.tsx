@@ -1,4 +1,5 @@
 import { SuggestedArticles } from '@components/Articles';
+import { CommentsContainer } from '@components/Comments';
 import { MainLayout } from '@components/MainLayout';
 import { Navigation } from '@components/navbar';
 import { images } from '@constants/images';
@@ -62,6 +63,7 @@ const SingleArticle = () => {
               architecto. Possimus porro veniam praesentium quibusdam quasi assumenda consequuntur!
             </p>
           </div>
+          <CommentsContainer classname='mt-10' />
         </article>
         <SuggestedArticles
           classname="mt-8 lg:mt-0 max-w-xs"

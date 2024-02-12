@@ -20,3 +20,21 @@ export interface User extends Post {
 }
 
 export type suggestedArticle = Omit<Post, 'tag'>;
+
+export type CommentType = {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+  };
+  desc: string;
+  post: string;
+  parent: string | null;
+  replyOnUser: string | null;
+  createdAt: string;
+};
+
+export type AffectedCommentType = {
+  type: string;
+  _id: number | string;
+};

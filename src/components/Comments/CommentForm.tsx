@@ -3,11 +3,12 @@ import React, { FormEvent, useState } from 'react';
 
 type Props = {
   label: string;
+  defaultValue?: string;
   formSubmitHandler: (comment: string) => void;
 };
 
-const CommentForm = ({ label, formSubmitHandler }: Props) => {
-  const [value, setValue] = useState<string>('');
+const CommentForm = ({ label, formSubmitHandler, defaultValue }: Props) => {
+  const [value, setValue] = useState<string>(defaultValue || '');
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     formSubmitHandler(value);
@@ -15,7 +16,7 @@ const CommentForm = ({ label, formSubmitHandler }: Props) => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex flex-col items-end border border-primary rounded-lg p-4'>
+      <div className='flex flex-col items-end border border-primary rounded-lg p-4 bg-transparent'>
         <textarea
           className="w-full focus:outline-none bg-background2"
           value={value}

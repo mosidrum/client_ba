@@ -63,7 +63,7 @@ const SingleArticle = () => {
               architecto. Possimus porro veniam praesentium quibusdam quasi assumenda consequuntur!
             </p>
           </div>
-          <CommentsContainer classname='mt-10' />
+          <CommentsContainer loginUserId='b' classname="mt-10" />
         </article>
         <SuggestedArticles
           classname="mt-8 lg:mt-0 max-w-xs"

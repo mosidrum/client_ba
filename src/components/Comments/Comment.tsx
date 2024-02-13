@@ -17,6 +17,8 @@ type Props = {
   ) => void;
   parentId: string | number | null;
   updateCommentHandler: (value: string, commentId: string) => void;
+  deleteComment: (value: string | number) => void;
+  replies: CommentType[]
 };
 
 const Comment = ({
@@ -26,9 +28,12 @@ const Comment = ({
   setAffectedComment,
   addCommentHandler,
   parentId = null,
-  updateCommentHandler
+  updateCommentHandler,
+  deleteComment,
+  replies
 }: Props) => {
   const [showReply, setShowReply] = useState<boolean>(false);
+  const [showEditing, setShowEditing] = useState<boolean>(false);
   const isUserLogin = Boolean(loginUserId);
   const commentBelongsToUser = loginUserId === comment.user._id;
 
@@ -60,9 +65,6 @@ const Comment = ({
           })}
         </span>
         <p className="mt-[10px]">{comment.desc}</p>
-        {isEditing && (
-          <CommentForm label='Update' key={comment._id} defaultValue={comment.desc} formSubmitHandler={(value) => updateCommentHandler(value, comment._id)} />
-        )}
         <div className="flex gap-x-4 items-center mt-3 mb-3">
           {isUserLogin && (
             <button
@@ -81,14 +83,14 @@ const Comment = ({
               <button
                 onClick={() => {
                   setAffectedComment({ type: 'editing', _id: comment._id }),
-                    setShowReply(!showReply);
+                    setShowEditing(!showEditing);
                 }}
                 className="flex gap-x-1 items-center"
               >
                 <MdOutlineEdit className="w-4 h-auto" />
                 <span>Edit</span>
               </button>
-              <button className="flex gap-x-1 items-center">
+              <button className="flex gap-x-1 items-center" onClick={() => deleteComment(comment._id)}>
                 <MdDelete className="w-4 h-auto" />
                 <span>Delete</span>
               </button>
@@ -101,6 +103,32 @@ const Comment = ({
             key={comment._id}
             formSubmitHandler={(value) => addCommentHandler(value, repliedCommentId, replyOnUserId)}
           />
+        )}
+        {isEditing && showEditing && (
+          <CommentForm
+            label="Update"
+            key={comment._id}
+            defaultValue={comment.desc}
+            formSubmitHandler={(value) => updateCommentHandler(value, comment._id)}
+          />
+        )}
+        {replies.length > 0 && (
+          <div>
+            {replies.map((reply) => (
+              <Comment
+                key={reply._id}
+                addCommentHandler={addCommentHandler}
+                affectedComment={affectedComment}
+                setAffectedComment={setAffectedComment}
+                comment={reply}
+                deleteComment={deleteComment}
+                loginUserId={loginUserId}
+                replies={[]}
+                updateCommentHandler={updateCommentHandler}
+                parentId={comment._id}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>

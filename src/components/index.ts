@@ -5,3 +5,4 @@ export * from './Articles';
 export * from './Action';
 export * from './MainLayout';
 export * from './Comments';
+export * from './SocialButtons';

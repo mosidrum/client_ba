@@ -1,6 +1,7 @@
 import { SuggestedArticles } from '@components/Articles';
 import { CommentsContainer } from '@components/Comments';
 import { MainLayout } from '@components/MainLayout';
+import { SocialButtons } from '@components/SocialButtons';
 import { Navigation } from '@components/navbar';
 import { images } from '@constants/images';
 import { NavLink, Post, suggestedArticle } from '@customTypes/Types';
@@ -63,14 +64,23 @@ const SingleArticle = () => {
               architecto. Possimus porro veniam praesentium quibusdam quasi assumenda consequuntur!
             </p>
           </div>
-          <CommentsContainer loginUserId='a' classname="mt-10" />
+          <CommentsContainer loginUserId="a" classname="mt-10" />
         </article>
-        <SuggestedArticles
-          classname="mt-8 lg:mt-0 max-w-xs"
-          data={exampleArticle}
-          tags={tags}
-          header="Latest Article"
-        />
+        <div>
+          <SuggestedArticles
+            classname="mt-8 lg:mt-0 max-w-xs"
+            data={exampleArticle}
+            tags={tags}
+            header="Latest Article"
+          />
+          <div className="mt-7 ">
+            <h2 className="font-medium text-primary2 mb-4 md:text-xl">Share on:</h2>
+            <SocialButtons
+              url={encodeURI('https://web.facebook.com/?_rdc=1&_rdr')}
+              title={encodeURIComponent('my facebook')}
+            />
+          </div>
+        </div>
       </section>
     </MainLayout>
   );

@@ -38,3 +38,8 @@ export type AffectedCommentType = {
   type: string;
   _id: number | string;
 };
+
+export type SocialMediaType = {
+  url: string;
+  title: string;
+}

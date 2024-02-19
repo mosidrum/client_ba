@@ -6,3 +6,5 @@ export * from './Action';
 export * from './MainLayout';
 export * from './Comments';
 export * from './SocialButtons';
+export * from './InputField';
+export * from './PasswordField';

@@ -8,6 +8,7 @@ export default {
         primary2: '#5c0000',
         comment: '#fadfdf',
         secondary: '#480000',
+        required: '#320505',
         dark: '#200000',
         background: '#0c0000',
         background2: '#fef5f6'

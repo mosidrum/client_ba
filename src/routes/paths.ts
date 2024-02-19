@@ -5,7 +5,7 @@ export const paths: { [key: string]: string } = {
   readArticle: '/readArticle',
   pages: '/pages',
   pricing: '/pricing',
-  faq: '/faq',
   about: '/about',
-  contactus: '/contactus'
+  contactus: '/contactus',
+  register: '/register'
 };

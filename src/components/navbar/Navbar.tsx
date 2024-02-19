@@ -33,8 +33,8 @@ export const navLink: NavLink[] = [
     path: 'pricing'
   },
   {
-    name: 'FAQ',
-    path: 'faq'
+    name: 'Register',
+    path: 'register'
   }
 ];
 

@@ -8,8 +8,19 @@ import { InputField } from '@components/InputField';
 import { paths } from '@routes/paths';
 import { useState } from 'react';
 import { PasswordField } from '@components/PasswordField';
+import { useMutation } from '@tanstack/react-query';
+import { signup } from '@services/users';
+import { GlobalPopup } from '@components/GlobalPopup';
+import { useSnackbar } from 'notistack';
+import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
+import { useDispatch } from 'react-redux';
+import { userActions } from '@store/reducers';
 
-type Props = {};
+type Props = {
+  email: string;
+  password: string;
+  name: string;
+};
 
 const validationSchema = yup
   .object({
@@ -26,7 +37,23 @@ const validationSchema = yup
   })
   .required();
 
-const Register = (props: Props) => {
+const Register = () => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { mutate } = useMutation({
+    mutationFn: ({ name, email, password }: Props) => {
+      return signup({ name, email, password });
+    },
+    onSuccess: (data) => {
+      
+      enqueueSnackbar('Successful');
+      setShowAlert(true);
+    },
+    onError: (error: Error) => {
+      useCustomSnackbar(error.message, 'error');
+      console.log(error);
+    }
+  });
   const navigate = useNavigate();
   const {
     register,
@@ -43,32 +70,52 @@ const Register = (props: Props) => {
   });
 
   const onSubmit = (data: any) => {
-    const { confirmPassword, ...formData } = data;
-    console.log('data', formData);
+    const { name, email, password } = data;
+    console.log('data', name, email, password);
+    mutate({ name, email, password });
   };
 
   return (
     <MainLayout>
       <section className="conatiner mx-auto px-5 py-10">
         <div className="w-full max-w-sm mx-auto">
-          <h1 className="text-3xl text-center mb-8">Sign Up</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <InputField name="name" label="name" register={register} errors={errors} />
-            <InputField name="email" label="email" register={register} errors={errors} />
-            <PasswordField name="password" label="password" register={register} errors={errors} />
-            <PasswordField
-              name="confirm password"
-              label="confirmPassword"
-              register={register}
-              errors={errors}
+          {showAlert ? (
+            <GlobalPopup
+              name="login"
+              message="Registration successful!"
+              setShowAlert={setShowAlert}
             />
-            <button type="submit" className={`mt-4 ${buttonStyle}`}>
-              Register
-            </button>
-            <div className="my-6 text- hover:cursor-pointer">
-              Already have ab account? <span onClick={() => navigate(paths.login)}> Sign In</span>
-            </div>
-          </form>
+          ) : (
+            <>
+              <h1 className="text-3xl text-center mb-8">Sign Up</h1>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <InputField name="name" label="name" register={register} errors={errors} />
+                <InputField name="email" label="email" register={register} errors={errors} />
+                <PasswordField
+                  name="password"
+                  label="password"
+                  register={register}
+                  errors={errors}
+                />
+                <PasswordField
+                  name="confirm password"
+                  label="confirmPassword"
+                  register={register}
+                  errors={errors}
+                />
+                <button type="submit" className={`mt-4 ${buttonStyle}`}>
+                  Register
+                </button>
+                <div className="my-6">
+                  Already have ab account?{' '}
+                  <span className="hover:cursor-pointer" onClick={() => navigate(paths.login)}>
+                    {' '}
+                    Sign In
+                  </span>
+                </div>
+              </form>
+            </>
+          )}
         </div>
       </section>
     </MainLayout>

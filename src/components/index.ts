@@ -9,3 +9,5 @@ export * from './SocialButtons';
 export * from './InputField';
 export * from './PasswordField';
 export * from './Alert';
+export * from './GlobalPopup';
+export * from './CustomSnackbarOptions';

@@ -9,6 +9,7 @@ import ForgotPassword from '@pages/ForgotPassword/ForgotPassword';
 import { Login } from '@pages/Login';
 import { ResetPassword } from '@pages/ResetPassword';
 
+
 export const AppRoutes = () => {
   return (
     <Routes>

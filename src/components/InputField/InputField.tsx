@@ -1,31 +1,28 @@
-import React, { ChangeEvent } from 'react';
 import { capFirstLetter } from '@utils/functions';
 
-interface Props {
+type Props = {
+  label: string;
   name: string;
-  placeholder: string;
-  error: string;
-  value: string;
-  required?: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: any) => void;
-}
+  register: any;
+  errors: any;
+};
 
-const InputField = ({ name, value, placeholder, error, required, onChange }: Props) => {
+const InputField = ({ name, label, register, errors }: Props) => {
   return (
     <div className="flex flex-col mt-6 mb-6 w-full text-primary">
       <label htmlFor="name" className="font-semibold block">
-        {capFirstLetter(name)} {required && <span className="text-required">*</span>}
+        {capFirstLetter(name)}
       </label>
       <input
         type="text"
-        id={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        value={value}
-        className="text-primary placeholder-primary rounded-lg px-3 py-2 font-semibold block outline-none border"
+        id={label}
+        placeholder={`Enter ${name}`}
+        {...register(label, { required: true })}
+        className={`text-primary placeholder-primary placeholder-opacity-35 rounded-lg px-3 py-2 font-semibold block outline-none border ${
+          errors[label] ? 'border-red-500' : ''
+        }`}
       />
-      <span className='italic text-[14px]'>{error}</span>
+      {errors[label] && <span className="text-sm">{errors[label].message}</span>}
     </div>
   );
 };

@@ -1,91 +1,73 @@
-import { InputField } from '@components/InputField';
 import { MainLayout } from '@components/MainLayout';
-import { PasswordField } from '@components/PasswordField';
 import { buttonStyle } from '@constants/styles';
-import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { InputField } from '@components/InputField';
+import { paths } from '@routes/paths';
+import { useState } from 'react';
+import { PasswordField } from '@components/PasswordField';
 
 type Props = {};
 
+const validationSchema = yup
+  .object({
+    name: yup.string().required('Name is required').min(3, 'Not a valid name'),
+    email: yup.string().required('Email is required').email('Invalid Email'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters'),
+    confirmPassword: yup
+      .string()
+      .required('Confirm Password is required')
+      .oneOf([yup.ref('password')], 'Passwords must match')
+  })
+  .required();
+
 const Register = (props: Props) => {
-  const [formValues, setFormValues] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-
-  const handleInputChange = (name: string, value: string) => {
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      [name]: value
-    }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      name: ''
-    }));
-  };
-
-  const handleEmailChange = (name: string, value: string) => {
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      [name]: value
-    }));
-    validateEmail(value);
-  };
-
-  const validateEmail = (email: string) => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (regex.test(email)) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: ''
-      }));
-    } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: 'Invalid email'
-      }));
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
     }
+  });
+
+  const onSubmit = (data: any) => {
+    const { confirmPassword, ...formData } = data;
+    console.log('data', formData);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formValues);
-  };
   return (
     <MainLayout>
       <section className="conatiner mx-auto px-5 py-10">
         <div className="w-full max-w-sm mx-auto">
-          <h1 className="text-2xl font-bold text-center mb-8 text-primary2">Sign Up</h1>
-          <form onSubmit={handleSubmit}>
-            <InputField
-              name="name"
-              placeholder="Enter you name"
-              error={errors.name}
-              value={formValues.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
-            />
-            <InputField
-              name="email"
-              placeholder="Enter your email"
-              error={errors.email}
-              value={formValues.email}
-              onChange={(e) => handleEmailChange('email', e.target.value)}
-            />
+          <h1 className="text-3xl text-center mb-8">Sign Up</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <InputField name="name" label="name" register={register} errors={errors} />
+            <InputField name="email" label="email" register={register} errors={errors} />
+            <PasswordField name="password" label="password" register={register} errors={errors} />
             <PasswordField
-              name="password"
-              placeholder="Enter password"
-              value={formValues.password}
-              error={errors.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
+              name="confirm password"
+              label="confirmPassword"
+              register={register}
+              errors={errors}
             />
-            <button type="submit" className={buttonStyle}>
+            <button type="submit" className={`mt-4 ${buttonStyle}`}>
               Register
             </button>
+            <div className="my-6 text- hover:cursor-pointer">
+              Already have ab account? <span onClick={() => navigate(paths.login)}> Sign In</span>
+            </div>
           </form>
         </div>
       </section>

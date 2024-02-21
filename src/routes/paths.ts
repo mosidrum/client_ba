@@ -7,5 +7,8 @@ export const paths: { [key: string]: string } = {
   pricing: '/pricing',
   about: '/about',
   contactus: '/contactus',
-  register: '/register'
+  register: '/register',
+  forgotPassword: '/forgotPassword',
+  login: '/login',
+  resetPassword: '/resetPassword'
 };

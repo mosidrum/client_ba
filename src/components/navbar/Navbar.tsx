@@ -48,7 +48,10 @@ const Navbar = () => {
     <section>
       <header className="w-full h-20 mx-auto py-4 px-5 sm:px-5 lg:px-14 flex justify-between gap-10 items-center shadow-2xl fixed top-0 z-50 bg-background2">
         <div>
-          <FaBlog className="w-10 h-10 hover:cursor-pointer" onClick={() => navigate(paths.index)} />
+          <FaBlog
+            className="w-10 h-10 hover:cursor-pointer"
+            onClick={() => navigate(paths.index)}
+          />
         </div>
         {mobileScreen ? (
           <div>
@@ -100,11 +103,15 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            <button className={buttonStyle}>Sign In</button>
+            <button className={buttonStyle} onClick={() => navigate(paths.login)}>
+              Sign In
+            </button>
           </nav>
         )}
       </header>
-      {menuClicked && <MobileNavbar setMenuClicked={setMenuClicked} navLink={navLink} buttonStyle={buttonStyle} />}
+      {menuClicked && (
+        <MobileNavbar setMenuClicked={setMenuClicked} navLink={navLink} buttonStyle={buttonStyle} />
+      )}
     </section>
   );
 };

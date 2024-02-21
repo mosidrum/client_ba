@@ -8,3 +8,4 @@ export * from './Comments';
 export * from './SocialButtons';
 export * from './InputField';
 export * from './PasswordField';
+export * from './Alert';

@@ -6,15 +6,15 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '@components/InputField';
 import { paths } from '@routes/paths';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PasswordField } from '@components/PasswordField';
 import { useMutation } from '@tanstack/react-query';
 import { signup } from '@services/users';
 import { GlobalPopup } from '@components/GlobalPopup';
 import { useSnackbar } from 'notistack';
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
-import { useDispatch } from 'react-redux';
-import { userActions } from '@store/reducers';
+import { userActions } from '@store/userReducers';
+import { useDispatch, useSelector } from 'react-redux';
 
 type Props = {
   email: string;
@@ -39,14 +39,15 @@ const validationSchema = yup
 
 const Register = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const userState = useSelector((state: any) => state.user);
   const { mutate } = useMutation({
     mutationFn: ({ name, email, password }: Props) => {
       return signup({ name, email, password });
     },
     onSuccess: (data) => {
-      
-      enqueueSnackbar('Successful');
+      dispatch(userActions.setUserInfo(data));
+      localStorage.setItem('userInfo', JSON.stringify(data));
       setShowAlert(true);
     },
     onError: (error: Error) => {
@@ -71,9 +72,17 @@ const Register = () => {
 
   const onSubmit = (data: any) => {
     const { name, email, password } = data;
-    console.log('data', name, email, password);
     mutate({ name, email, password });
   };
+
+  useEffect(() => {
+    if (userState.userInfo) {
+      setShowAlert(true)
+      setTimeout(() => {
+        navigate(paths.login)
+      }, 5000)
+    }
+  });
 
   return (
     <MainLayout>
@@ -81,6 +90,7 @@ const Register = () => {
         <div className="w-full max-w-sm mx-auto">
           {showAlert ? (
             <GlobalPopup
+              type="sucess"
               name="login"
               message="Registration successful!"
               setShowAlert={setShowAlert}

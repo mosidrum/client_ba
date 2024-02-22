@@ -7,6 +7,10 @@ import { onMobileScreen } from '@hooks/onMobileScreen';
 import { NavLink } from 'customTypes';
 import { MobileNavbar } from '@components/navbar';
 import { buttonStyle } from '@constants/styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '@store/userActions';
+import { images } from '@constants/images';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 
 export const navLink: NavLink[] = [
   {
@@ -40,9 +44,16 @@ export const navLink: NavLink[] = [
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch:ThunkDispatch<any, any, any> = useDispatch();
+  const userState = useSelector((state: any) => state.user);
   const mobileScreen = onMobileScreen('(max-width: 768px)');
   const [menuClicked, setMenuClicked] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const [showLogout, setShowLogout] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <section>
@@ -103,9 +114,34 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            <button className={buttonStyle} onClick={() => navigate(paths.login)}>
-              Sign In
-            </button>
+            {userState.userInfo ? (
+              <div className="relative" onClick={() => setShowLogout(!showLogout)}>
+                <div className="flex items-center gap-x-1">
+                  <img src={images.PostProfileImage} alt="Profile" />
+                  {showLogout ? <FaAngleUp /> : <FaAngleDown />}
+                </div>
+                {showLogout && (
+                  <ul className="absolute text-sm w-[300px] bg-background2 text-center text-primary flex flex-col gap-4 p-4 rounded-lg mt-2 right-0">
+                    <p className="text-left mb-4 font-bold italic">
+                      Welcome {userState.userInfo?.name}
+                    </p>
+                    <li className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2">
+                      Dashboard
+                    </li>
+                    <li
+                      onClick={handleLogout}
+                      className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
+                    >
+                      Logout
+                    </li>
+                  </ul>
+                )}
+              </div>
+            ) : (
+              <button className={buttonStyle} onClick={() => navigate(paths.login)}>
+                Sign In
+              </button>
+            )}
           </nav>
         )}
       </header>

@@ -28,7 +28,6 @@ const MobileNavBar = ({ navLink, buttonStyle, setMenuClicked }: Props) => {
                 } else {
                   navigate(paths[link.path]);
                   setMenuClicked(false);
-
                 }
               }}
             >
@@ -53,7 +52,6 @@ const MobileNavBar = ({ navLink, buttonStyle, setMenuClicked }: Props) => {
             </li>
           ))}
         </ul>
-        <button className={buttonStyle}>Sign In</button>
       </nav>
     </div>
   );

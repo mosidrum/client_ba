@@ -4,15 +4,20 @@ import { MdOutlineClose } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
+  type: string;
   message: string;
   name?: string;
   setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const GlobalPopup = ({ message, name, setShowAlert }: Props) => {
+const GlobalPopup = ({ type, message, name, setShowAlert }: Props) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full h-44 border border-primary2 rounded-lg relative flex flex-col items-center justify-between p-4">
+    <div
+      className={`${
+        type === 'success' ? ' border-green-500 text-green-500' : ' border-red-500'
+      }w-full h-44 border rounded-lg relative flex flex-col items-center justify-between p-4`}
+    >
       <div>
         <MdOutlineClose
           size={20}

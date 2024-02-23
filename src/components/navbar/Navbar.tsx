@@ -44,7 +44,7 @@ export const navLink: NavLink[] = [
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch:ThunkDispatch<any, any, any> = useDispatch();
+  const dispatch: ThunkDispatch<any, any, any> = useDispatch();
   const userState = useSelector((state: any) => state.user);
   const mobileScreen = onMobileScreen('(max-width: 768px)');
   const [menuClicked, setMenuClicked] = useState<boolean>(false);
@@ -53,6 +53,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    setShowLogout(false);
   };
 
   return (
@@ -120,11 +121,9 @@ const Navbar = () => {
                   <img src={images.PostProfileImage} alt="Profile" />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
+                <p className='text-sm'>{userState?.userInfo.name}</p>
                 {showLogout && (
                   <ul className="absolute text-sm w-[300px] bg-background2 text-center text-primary flex flex-col gap-4 p-4 rounded-lg mt-2 right-0">
-                    <p className="text-left mb-4 font-bold italic">
-                      Welcome {userState.userInfo?.name}
-                    </p>
                     <li className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2">
                       Dashboard
                     </li>
@@ -146,7 +145,14 @@ const Navbar = () => {
         )}
       </header>
       {menuClicked && (
-        <MobileNavbar setMenuClicked={setMenuClicked} navLink={navLink} buttonStyle={buttonStyle} />
+        <MobileNavbar
+          setMenuClicked={setMenuClicked}
+          navLink={navLink}
+          buttonStyle={buttonStyle}
+          showLogout={showLogout}
+          setShowLogout={setShowLogout}
+          handleLogout={handleLogout}
+        />
       )}
     </section>
   );

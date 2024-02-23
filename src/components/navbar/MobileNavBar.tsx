@@ -1,16 +1,29 @@
+import { images } from '@constants/images';
 import { paths } from '@routes/paths';
 import { NavLink } from 'customTypes';
 import React, { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
   navLink: NavLink[];
   buttonStyle: string;
   setMenuClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  showLogout: boolean;
+  setShowLogout: React.Dispatch<React.SetStateAction<boolean>>;
+  handleLogout: () => void;
 };
 
-const MobileNavBar = ({ navLink, buttonStyle, setMenuClicked }: Props) => {
+const MobileNavBar = ({
+  navLink,
+  buttonStyle,
+  showLogout,
+  setShowLogout,
+  setMenuClicked,
+  handleLogout
+}: Props) => {
+  const userState = useSelector((state: any) => state.user);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -51,6 +64,33 @@ const MobileNavBar = ({ navLink, buttonStyle, setMenuClicked }: Props) => {
               )}
             </li>
           ))}
+          <div>
+            {userState.userInfo && (
+              <div>
+                <div
+                  onClick={() => setShowLogout(!showLogout)}
+                  className="flex items-center gap-x-2"
+                >
+                  <img src={images.PostProfileImage} alt="Profile" />
+                  {showLogout ? <FaAngleUp /> : <FaAngleDown />}
+                </div>
+                <div className="text-sm"> {userState.userInfo.name}</div>
+              </div>
+            )}
+            {showLogout && (
+              <ul className="absolute text-sm w-[150px] bg-background2 text-center text-primary flex flex-col justify-center gap-4 p-4 rounded-lg mt-2">
+                <li className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2">
+                  Dashboard
+                </li>
+                <li
+                  onClick={handleLogout}
+                  className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
+                >
+                  Logout
+                </li>
+              </ul>
+            )}
+          </div>
         </ul>
       </nav>
     </div>

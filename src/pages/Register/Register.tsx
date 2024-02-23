@@ -9,11 +9,9 @@ import { paths } from '@routes/paths';
 import { useEffect, useState } from 'react';
 import { PasswordField } from '@components/PasswordField';
 import { useMutation } from '@tanstack/react-query';
-import { signup } from '@services/users';
+import { Signup } from '@services/users';
 import { GlobalPopup } from '@components/GlobalPopup';
-import { useSnackbar } from 'notistack';
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
-import { userActions } from '@store/userReducers';
 import { useDispatch, useSelector } from 'react-redux';
 
 type Props = {
@@ -39,20 +37,16 @@ const validationSchema = yup
 
 const Register = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const userState = useSelector((state: any) => state.user);
   const { mutate } = useMutation({
     mutationFn: ({ name, email, password }: Props) => {
-      return signup({ name, email, password });
+      return Signup({ name, email, password });
     },
-    onSuccess: (data) => {
-      dispatch(userActions.setUserInfo(data));
-      localStorage.setItem('userInfo', JSON.stringify(data));
+    onSuccess: () => {
       setShowAlert(true);
     },
     onError: (error: Error) => {
       useCustomSnackbar(error.message, 'error');
-      console.log(error);
     }
   });
   const navigate = useNavigate();
@@ -74,15 +68,6 @@ const Register = () => {
     const { name, email, password } = data;
     mutate({ name, email, password });
   };
-
-  useEffect(() => {
-    if (userState.userInfo) {
-      setShowAlert(true)
-      setTimeout(() => {
-        navigate(paths.login)
-      }, 5000)
-    }
-  });
 
   return (
     <MainLayout>

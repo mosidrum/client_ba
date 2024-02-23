@@ -8,8 +8,16 @@ import { useNavigate } from 'react-router-dom';
 import { paths } from '@routes/paths';
 import { Alert } from '@components/Alert';
 import { PasswordField } from '@components/PasswordField';
+import { useMutation } from '@tanstack/react-query';
+import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
+import { SignIn } from '@services/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '@store/userReducers';
 
-type Props = {};
+type LoginProps = {
+  email: string;
+  password: string;
+};
 
 const validateLogin = yup
   .object({
@@ -21,22 +29,44 @@ const validateLogin = yup
   })
   .required();
 
-const Login = (props: Props) => {
+const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state: any) => state.user);
+
   const {
     register,
     handleSubmit,
-    formState: { errors }, watch
+    formState: { errors },
+    watch
   } = useForm({
     resolver: yupResolver(validateLogin),
     defaultValues: {
       email: '',
       password: ''
+    },
+    mode: 'onChange'
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: ({ email, password }: LoginProps) => {
+      return SignIn({ email, password });
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      dispatch(userActions.setUserInfo(data));
+      useCustomSnackbar('Login successful', 'success');
+      navigate(paths.index);
+    },
+    onError: (error: Error) => {
+      useCustomSnackbar(error.message, 'error');
+      console.log(error);
     }
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const { email, password } = data;
+    mutate({ email, password });
   };
 
   return (

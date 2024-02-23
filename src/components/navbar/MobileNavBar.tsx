@@ -65,7 +65,7 @@ const MobileNavBar = ({
             </li>
           ))}
           <div>
-            {userState.userInfo && (
+            {userState.userInfo ? (
               <div>
                 <div
                   onClick={() => setShowLogout(!showLogout)}
@@ -75,6 +75,10 @@ const MobileNavBar = ({
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
                 <div className="text-sm"> {userState.userInfo.name}</div>
+              </div>
+            ) : (
+              <div className={`${buttonStyle} hover:cursor-pointer`} onClick={() => navigate(paths.login)}>
+                Sign In
               </div>
             )}
             {showLogout && (

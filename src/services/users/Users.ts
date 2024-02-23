@@ -6,7 +6,12 @@ type Props = {
   name: string;
 };
 
-export const signup = async ({ name, email, password }: Props) => {
+type LoginProps = {
+  email: string;
+  password: string;
+};
+
+export const Signup = async ({ name, email, password }: Props) => {
   try {
     const { data } = await axios.post('http://localhost:8000/api/users/register', {
       name,
@@ -18,6 +23,20 @@ export const signup = async ({ name, email, password }: Props) => {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
-    throw new Error( error.message);
+    throw new Error(error.message);
+  }
+};
+export const SignIn = async ({ email, password }: LoginProps) => {
+  try {
+    const { data } = await axios.post('http://localhost:8000/api/users/login', {
+      email,
+      password
+    });
+    return data;
+  } catch (error: any) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
   }
 };

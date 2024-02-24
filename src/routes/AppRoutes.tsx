@@ -8,7 +8,7 @@ import { Register } from '@pages/Register';
 import ForgotPassword from '@pages/ForgotPassword/ForgotPassword';
 import { Login } from '@pages/Login';
 import { ResetPassword } from '@pages/ResetPassword';
-
+import { Profile } from '@pages/Profile';
 
 export const AppRoutes = () => {
   return (
@@ -21,6 +21,7 @@ export const AppRoutes = () => {
         <Route path={paths.login} element={<Login />} />
         <Route path={paths.forgotPassword} element={<ForgotPassword />} />
         <Route path={paths.resetPassword} element={<ResetPassword />} />
+        <Route path={paths.profile} element={<Profile />} />
       </Route>
     </Routes>
   );

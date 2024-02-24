@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '@store/userActions';
 import { images } from '@constants/images';
 import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useCustomSnackbar } from '..';
 
 export const navLink: NavLink[] = [
   {
@@ -54,6 +55,8 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     setShowLogout(false);
+    useCustomSnackbar('Logged Out!', 'success')
+    navigate(paths.index);
   };
 
   return (
@@ -118,14 +121,17 @@ const Navbar = () => {
             {userState.userInfo ? (
               <div className="relative" onClick={() => setShowLogout(!showLogout)}>
                 <div className="flex items-center gap-x-1">
-                  <img src={images.PostProfileImage} alt="Profile" />
+                  <img src={userState.userInfo.avatar} alt="Profile" />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
-                <p className='text-sm'>{userState?.userInfo.name}</p>
+                <p className="text-sm">{userState?.userInfo.name}</p>
                 {showLogout && (
                   <ul className="absolute text-sm w-[300px] bg-background2 text-center text-primary flex flex-col gap-4 p-4 rounded-lg mt-2 right-0">
-                    <li className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2">
-                      Dashboard
+                    <li
+                      onClick={() => navigate(paths.profile)}
+                      className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2"
+                    >
+                      Profile
                     </li>
                     <li
                       onClick={handleLogout}

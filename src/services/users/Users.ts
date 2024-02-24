@@ -11,9 +11,18 @@ type LoginProps = {
   password: string;
 };
 
+type UpdateProfileType = {
+  token: string;
+  email: string;
+  name: string;
+  password: string;
+};
+
+const serverURL = 'http://localhost:8000/api/users/';
+
 export const Signup = async ({ name, email, password }: Props) => {
   try {
-    const { data } = await axios.post('http://localhost:8000/api/users/register', {
+    const { data } = await axios.post(`${serverURL}register`, {
       name,
       email,
       password
@@ -26,12 +35,51 @@ export const Signup = async ({ name, email, password }: Props) => {
     throw new Error(error.message);
   }
 };
+
 export const SignIn = async ({ email, password }: LoginProps) => {
   try {
-    const { data } = await axios.post('http://localhost:8000/api/users/login', {
+    const { data } = await axios.post(`${serverURL}login`, {
       email,
       password
     });
+    return data;
+  } catch (error: any) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const getUserProfile = async (token: string) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const { data } = await axios.get(`${serverURL}profile`, config);
+    return data;
+  } catch (error: any) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const UpdateProfile = async (token: string, name: string, email: string) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const { data } = await axios.put(
+      `${serverURL}updateProfile`,
+      { name, email },
+      config
+    );
     return data;
   } catch (error: any) {
     if (error.response && error.response.data.message) {

@@ -16,12 +16,12 @@ const GlobalPopup = ({ type, message, name, setShowAlert }: Props) => {
     <div
       className={`${
         type === 'success' ? ' border-green-500 text-green-500' : ' border-red-500'
-      }w-full h-44 border rounded-lg relative flex flex-col items-center justify-between p-4`}
+      } w-3/4 border rounded-lg relative flex flex-col items-center p-4 mx-auto`}
     >
       <div>
         <MdOutlineClose
           size={20}
-          className="absolute top-4 right-4 hover:cursor-pointer"
+          className="absolute flex items-center top-4 right-4 hover:cursor-pointer"
           onClick={() => {
             setShowAlert(false);
             if (name !== undefined) {
@@ -30,7 +30,9 @@ const GlobalPopup = ({ type, message, name, setShowAlert }: Props) => {
           }}
         />
       </div>
-      <h1 className="text-2xl font-bold mt-4">{message} 🎉</h1>
+      <h1 className={`text-2xl font-bold mt-4`} >
+        {message} <span> 🎉</span>
+      </h1>
       {name && (
         <p className="text-center">
           Click here to{' '}

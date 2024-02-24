@@ -11,3 +11,4 @@ export * from './PasswordField';
 export * from './Alert';
 export * from './GlobalPopup';
 export * from './CustomSnackbarOptions';
+export * from './ProfilePicture';

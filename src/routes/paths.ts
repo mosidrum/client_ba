@@ -10,5 +10,6 @@ export const paths: { [key: string]: string } = {
   register: '/register',
   forgotPassword: '/forgotPassword',
   login: '/login',
-  resetPassword: '/resetPassword'
+  resetPassword: '/resetPassword',
+  profile: '/profile'
 };

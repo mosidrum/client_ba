@@ -77,14 +77,20 @@ const MobileNavBar = ({
                 <div className="text-sm"> {userState.userInfo.name}</div>
               </div>
             ) : (
-              <div className={`${buttonStyle} hover:cursor-pointer`} onClick={() => navigate(paths.login)}>
+              <div
+                className={`${buttonStyle} hover:cursor-pointer`}
+                onClick={() => navigate(paths.login)}
+              >
                 Sign In
               </div>
             )}
             {showLogout && (
               <ul className="absolute text-sm w-[150px] bg-background2 text-center text-primary flex flex-col justify-center gap-4 p-4 rounded-lg mt-2">
-                <li className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2">
-                  Dashboard
+                <li
+                  onClick={() => navigate(paths.profile)}
+                  className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2"
+                >
+                  Profile
                 </li>
                 <li
                   onClick={handleLogout}

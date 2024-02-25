@@ -9,6 +9,7 @@ import { InvalidateQueryFilters, useMutation, useQueryClient } from '@tanstack/r
 import { UpdateProfilePictureType } from '@components/CropImage/CropEasy';
 import { UpdateProfilePicture } from '@services/users';
 import { userActions } from '@store/userReducers';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 type Props = {
   avatar: string;
@@ -94,10 +95,11 @@ const ProfilePicture = ({ avatar }: Props) => {
         </div>
         <button
           onClick={handleDeletePicture}
-          className={`${buttonStyle} -ml-[-1n0px]`}
+          className={`${buttonStyle} text-center`}
           type="button"
         >
-          Delete
+          <MdOutlineDeleteOutline size={25} />
+          <span>Delete</span>
         </button>
       </div>
     </>

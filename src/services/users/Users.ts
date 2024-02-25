@@ -11,12 +11,10 @@ type LoginProps = {
   password: string;
 };
 
-type UpdateProfileType = {
+type updateProfilePicture ={
   token: string;
-  email: string;
-  name: string;
-  password: string;
-};
+  formData: any;
+}
 
 const serverURL = 'http://localhost:8000/api/users/';
 
@@ -75,11 +73,25 @@ export const UpdateProfile = async (token: string, name: string, email: string) 
         Authorization: `Bearer ${token}`
       }
     };
-    const { data } = await axios.put(
-      `${serverURL}updateProfile`,
-      { name, email },
-      config
-    );
+    const { data } = await axios.put(`${serverURL}updateProfile`, { name, email }, config);
+    return data;
+  } catch (error: any) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const UpdateProfilePicture = async ({token, formData}: updateProfilePicture) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const { data } = await axios.put(`${serverURL}updateProfilePicture`, formData, config);
     return data;
   } catch (error: any) {
     if (error.response && error.response.data.message) {

@@ -12,3 +12,4 @@ export * from './Alert';
 export * from './GlobalPopup';
 export * from './CustomSnackbarOptions';
 export * from './ProfilePicture';
+export * from './CropImage';

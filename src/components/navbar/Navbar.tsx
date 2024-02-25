@@ -12,6 +12,8 @@ import { logout } from '@store/userActions';
 import { images } from '@constants/images';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useCustomSnackbar } from '..';
+import { useQuery } from '@tanstack/react-query';
+import { getUserProfile } from '@services/users';
 
 export const navLink: NavLink[] = [
   {
@@ -51,6 +53,15 @@ const Navbar = () => {
   const [menuClicked, setMenuClicked] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [showLogout, setShowLogout] = useState<boolean>(false);
+
+   const { data: profileData} = useQuery({
+     queryFn: () => {
+       const token= userState.userInfo.token;
+       return getUserProfile(token);
+     },
+     queryKey: ['profile']
+   });
+
 
   const handleLogout = () => {
     dispatch(logout());
@@ -121,7 +132,7 @@ const Navbar = () => {
             {userState.userInfo ? (
               <div className="relative" onClick={() => setShowLogout(!showLogout)}>
                 <div className="flex items-center gap-x-1">
-                  <img src={userState.userInfo.avatar} alt="Profile" />
+                  <img src={userState?.userInfo.avatar} alt="Profile" />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
                 <p className="text-sm">{userState?.userInfo.name}</p>

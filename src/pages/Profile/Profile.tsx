@@ -35,14 +35,10 @@ const Profile = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const userState = useSelector((state: any) => state.user);
-  const token = userState.userInfo.token;
 
-  const {
-    data: profileData,
-    isLoading,
-    error: profileError
-  } = useQuery({
+  const { data: profileData, isLoading } = useQuery({
     queryFn: () => {
+      const token = userState.userInfo.token;
       return getUserProfile(token);
     },
     queryKey: ['profile']

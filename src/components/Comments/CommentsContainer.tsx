@@ -22,7 +22,7 @@ const CommentsContainer = ({ classname, loginUserId }: Props) => {
     })();
   }, []);
 
-  const addCommentHandler = (value: string, parent = null, replyOnUser = null) => {
+  const addCommentHandler = (value: string, parent?: string, replyOnUser?: string) => {
     const addNewComment = {
       _id: Math.random().toString(),
       user: {
@@ -31,8 +31,8 @@ const CommentsContainer = ({ classname, loginUserId }: Props) => {
       },
       desc: value,
       post: '1',
-      parent: parent,
-      replyOnUser: replyOnUser,
+      parent: parent ?? '',
+      replyOnUser: replyOnUser ?? '',
       createdAt: new Date().toISOString()
     };
     setComments((prevComments) => [...prevComments, addNewComment]);
@@ -79,6 +79,7 @@ const CommentsContainer = ({ classname, loginUserId }: Props) => {
             updateCommentHandler={updateCommentHandler}
             deleteComment={deleteComment}
             replies={getReplies(comment._id)}
+            parentId={comment.parent || ''}
           />
         ))}
       </div>

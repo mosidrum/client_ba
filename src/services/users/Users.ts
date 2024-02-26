@@ -16,7 +16,7 @@ type updateProfilePicture ={
   formData: any;
 }
 
-const serverURL = 'http://localhost:8000/api/users/';
+const serverURL = 'https://octo-engine-ba.onrender.com/api/users/';
 
 export const Signup = async ({ name, email, password }: Props) => {
   try {

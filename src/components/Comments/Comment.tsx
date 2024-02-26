@@ -12,10 +12,10 @@ type Props = {
   setAffectedComment: (value: AffectedCommentType | null) => void;
   addCommentHandler: (
     value: string,
-    repliedCommentId: string | number | null,
-    replyOnUserId: string | number | null
+    repliedCommentId:  string,
+    replyOnUserId: string
   ) => void;
-  parentId: string | number | null;
+  parentId: string;
   updateCommentHandler: (value: string, commentId: string) => void;
   deleteComment: (value: string | number) => void;
   replies: CommentType[]
@@ -27,7 +27,7 @@ const Comment = ({
   affectedComment,
   setAffectedComment,
   addCommentHandler,
-  parentId = null,
+  parentId = '',
   updateCommentHandler,
   deleteComment,
   replies
@@ -113,7 +113,7 @@ const Comment = ({
           />
         )}
         {replies.length > 0 && (
-          <div>
+          <div className='p-1 bg-background2'>
             {replies.map((reply) => (
               <Comment
                 key={reply._id}

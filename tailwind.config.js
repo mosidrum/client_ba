@@ -6,7 +6,7 @@ export default {
       colors: {
         primary: '#7a1012',
         primary2: '#5c0000',
-        comment: '#fadfdf',
+        comment: '#f8f2f2',
         secondary: '#480000',
         required: '#320505',
         dark: '#200000',
@@ -20,4 +20,3 @@ export default {
   },
   plugins: []
 };
-

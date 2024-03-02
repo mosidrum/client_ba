@@ -14,6 +14,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useCustomSnackbar } from '..';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@services/users';
+import pathToUploadPicture from '@constants/pathToUploadPicture';
 
 export const navLink: NavLink[] = [
   {
@@ -54,19 +55,20 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [showLogout, setShowLogout] = useState<boolean>(false);
 
-   const { data: profileData} = useQuery({
-     queryFn: () => {
-       const token= userState.userInfo.token;
-       return getUserProfile(token);
-     },
-     queryKey: ['profile']
-   });
+  const { data: profileData } = useQuery({
+    queryFn: () => {
+      const token = userState.userInfo.token;
+      return getUserProfile(token);
+    },
+    queryKey: ['profile']
+  });
 
+  const imageURL = profileData?.avatar;
 
   const handleLogout = () => {
     dispatch(logout());
     setShowLogout(false);
-    useCustomSnackbar('Logged Out!', 'success')
+    useCustomSnackbar('Logged Out!', 'success');
     navigate(paths.index);
   };
 
@@ -132,7 +134,15 @@ const Navbar = () => {
             {userState.userInfo ? (
               <div className="relative" onClick={() => setShowLogout(!showLogout)}>
                 <div className="flex items-center gap-x-1">
-                  <img src={userState?.userInfo.avatar} alt="Profile" />
+                  <img
+                    src={
+                      userState.userInfo.avatar
+                        ? pathToUploadPicture.UPLOAD_FOLDER_BASE_URL + userState.userInfo.avatar
+                        : images.user
+                    }
+                    alt="Profile"
+                    className='h-10 w-10 rounded-full'
+                  />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
                 <p className="text-sm">{userState?.userInfo.name}</p>

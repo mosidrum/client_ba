@@ -10,9 +10,9 @@ import { Alert } from '@components/Alert';
 import { PasswordField } from '@components/PasswordField';
 import { useMutation } from '@tanstack/react-query';
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
-import { SignIn } from '@services/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '@store/userReducers';
+import { SignIn } from '@services/users';
 
 type LoginProps = {
   email: string;
@@ -60,7 +60,6 @@ const Login = () => {
     },
     onError: (error: Error) => {
       useCustomSnackbar(error.message, 'error');
-      console.log(error);
     }
   });
 

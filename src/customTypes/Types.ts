@@ -5,21 +5,11 @@ export interface NavLink {
   dropdown?: NavLink[];
 }
 
-export interface Post {
-  _id: number | string;
-  title: string;
-  tag: string;
-  image: string;
-  createdAt: string;
-}
-
 export interface User extends Post {
-  id: number | string;
+  id: string;
   name: string;
   verified: boolean;
 }
-
-export type suggestedArticle = Omit<Post, 'tag'>;
 
 export type CommentType = {
   _id: string;
@@ -42,4 +32,46 @@ export type AffectedCommentType = {
 export type SocialMediaType = {
   url: string;
   title: string;
+}
+
+export interface Post {
+  _id: string;
+  title: string;
+  caption: string;
+  slug: string;
+  body: {
+    type: string;
+    content: any[];
+  };
+  photo: string;
+  user: {
+    _id: string;
+    avatar: string;
+    name: string;
+    verified: boolean;
+  };
+  tags: string[];
+  categories: string[];
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
+export interface Comments {
+  _id: string;
+  user: {
+    _id: string;
+    avatar: string;
+    name: string;
+  };
+  desc: string;
+  post: string;
+  check: boolean;
+  parent: string | null;
+  replyOnUser: string | null;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  replies?: Comment[];
+  id: string;
 }

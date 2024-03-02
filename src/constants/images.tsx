@@ -4,6 +4,8 @@ import PostImage from '@assets/posts/post1.jpg';
 import User from '@assets/posts/post-profile.svg';
 import CallToAction from '@assets/CtaImage.jpg';
 import PostProfileImage from '@assets/posts/post-profile.svg'
+import noPostImage from '@assets/notAvailable.jpg';
+import noProfileImage from '@assets/noImage.webp';
 
 export const images = {
   Logo,
@@ -11,5 +13,7 @@ export const images = {
   PostImage,
   User,
   CallToAction,
-  PostProfileImage
+  PostProfileImage,
+  noPostImage,
+  noProfileImage
 };

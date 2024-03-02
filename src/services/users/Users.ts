@@ -1,3 +1,4 @@
+import { serverURL } from 'api';
 import axios from 'axios';
 
 type Props = {
@@ -15,8 +16,6 @@ type updateProfilePicture ={
   token: string;
   formData: any;
 }
-
-const serverURL = 'https://octo-engine-ba.onrender.com/api/users/';
 
 export const Signup = async ({ name, email, password }: Props) => {
   try {

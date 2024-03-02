@@ -1,4 +1,4 @@
-import { suggestedArticle } from '@customTypes/Types';
+import { suggestedArticle } from '@pages/ArticlesPage/SingleArticle';
 import React from 'react';
 
 type Props = {
@@ -17,7 +17,7 @@ const SuggestedArticles = ({ classname, header, data, tags }: Props) => {
           {data.map((item) => (
             <div key={item._id} className="flex space-x-3 flex-nowrap items-center">
               <img
-                src={item.image}
+                src={item.photo}
                 alt="Article"
                 className="aspect-square object-cover rounded-lg w-1/5"
               />

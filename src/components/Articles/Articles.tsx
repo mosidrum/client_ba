@@ -1,17 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowDown } from 'react-icons/fa';
 import { buttonStyle } from '@constants/styles';
 import Card from './Card';
+import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
+import { getAllPosts } from '@services/posts';
+import { useQuery } from '@tanstack/react-query';
+import { Post } from '@customTypes/Types';
+import { ArticlesPage } from '@pages/ArticlesPage';
+import { Alert, ArticlesSkeleton } from '..';
 
 type Props = {};
 
 const Articles = (props: Props) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getAllPosts
+  });
+  useEffect(() => {
+    if (isError) {
+      const error = data as any;
+      useCustomSnackbar('Failed to fetch posts', 'error');
+      console.log(error);
+    }
+  }, [isError, data]);
+
+  const posts = (data as Post[]) || [];
+
   return (
     <section className="flex flex-col container  mx-auto px-5 sm:px-5 py-10">
-      <div className=" flex flex-col md:flex md:flex-row md:flex-nowrap gap-10 pb-10">
-        <Card classname="w-40" />
-        <Card classname="w-40" />
-        <Card classname="w-40" />
+      <div className="grid mb-4 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto">
+        {isLoading ? (
+          [...Array(3)].map((item, index) => <ArticlesSkeleton key={index} classname="max-w-md" />)
+        ) : (
+          posts.map((post: Post) => (
+            <Card
+              key={post._id}
+              classname="max-w-md"
+              title={post.title}
+              caption={post.caption}
+              user={post.user}
+              createdAt={post.createdAt}
+              photo={post.photo}
+              slug={post.slug}
+            />
+          ))
+        )}
       </div>
       <button className={buttonStyle}>
         <span>More articles</span>

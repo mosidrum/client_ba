@@ -17,7 +17,7 @@ export const AppRoutes = () => {
       <Route path={paths.index} element={<LandingPage />}>
         <Route path={paths.homepage} element={<Homepage />} />
         <Route path={paths.articles} element={<ArticlesPage />} />
-        <Route path={paths.readArticle} element={<SingleArticle />} />
+        <Route path={`${paths.readArticle}/:slug`} element={<SingleArticle />} />
         <Route path={paths.forgotPassword} element={<ForgotPassword />} />
         <Route path={paths.resetPassword} element={<ResetPassword />} />
         <Route path={paths.register} element={<Register />} />

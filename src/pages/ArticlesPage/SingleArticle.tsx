@@ -70,9 +70,11 @@ const SingleArticle = () => {
     queryFn: () => {
       return getSinglePost(post);
     },
-    queryKey: ['post']
+    queryKey: ['post'],
+    staleTime: 2000
   });
-
+  console.log(data);
+  
   useEffect(() => {
     if (data) {
       setBody(generateHTML(data?.body, [Italic, Text, Bold, Paragraph, Document]));
@@ -109,7 +111,12 @@ const SingleArticle = () => {
             <div className="mt-4 text-primary">
               <p dangerouslySetInnerHTML={{ __html: body }} className="leading-7 text-justify "></p>
             </div>
-            <CommentsContainer _id={userState?.userInfo?._id} classname="mt-10" user={data?.user} commentsProps={data?.comments} />
+            <CommentsContainer
+              loginUserId={userState?.userInfo?._id}
+              classname="mt-10"
+              commentsData={data?.comments}
+              slug={data?.slug}
+            />
           </article>
           <div>
             <SuggestedArticles

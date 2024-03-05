@@ -2,75 +2,96 @@ import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import { getComments } from '@utils/dummy/comments';
 import Comment from './Comment';
-import { AffectedCommentType, CommentType } from '@customTypes/Types';
+import { AffectedCommentType, Comments } from '@customTypes/Types';
+import { useMutation } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+import {
+  createCommentType,
+  createNewComment,
+  deleteTypes,
+  updateComment,
+  updateCommentType,
+  deleteCommentHandler
+} from '@services/comments';
+import { useCustomSnackbar } from '..';
 
 type Props = {
   classname: string;
   loginUserId: string;
+  commentsData: Comments[];
+  slug: string;
 };
 
-const CommentsContainer = ({ classname, loginUserId }: Props) => {
-  const [comments, setComments] = useState<CommentType[]>([]);
+const CommentsContainer = ({ classname, loginUserId, commentsData, slug }: Props) => {
   const [affectedComment, setAffectedComment] = useState<AffectedCommentType | null>(null);
-  const mainComments = comments.filter((comments) => comments.parent === null);
-  console.log(comments);
+  const userState = useSelector((state: any) => state.user);
+  const token = userState?.userInfo?.token;
+  const userId = userState?.userInfo?._id;
 
-  useEffect(() => {
-    (async () => {
-      const commentData = await getComments();
-      setComments(commentData);
-    })();
-  }, []);
+  const { mutate: mutateNewComment, isPending } = useMutation({
+    mutationFn: ({ desc, parent, replyOnUser, slug, token }: createCommentType) => {
+      return createNewComment({ desc, parent, replyOnUser, slug, token });
+    },
+    onSuccess: () => {
+      useCustomSnackbar('Comment successfully, visible after confirmation', 'success');
+    },
+    onError: (error) => {
+      useCustomSnackbar(error.message, 'error');
+      console.log(error);
+    }
+  });
+
+  const { mutate: mutateUpdateComment } = useMutation({
+    mutationFn: ({ desc, _id, token, userId }: updateCommentType) => {
+      return updateComment({ desc, _id, token, userId });
+    },
+    onSuccess: () => {
+      useCustomSnackbar('Comment updated successfully', 'success');
+    },
+    onError: (error) => {
+      useCustomSnackbar(error.message, 'error');
+      console.log(error);
+    }
+  });
+
+  const { mutate: mutateDeleteComment } = useMutation({
+    mutationFn: ({ commentId, token, userId }: deleteTypes) => {
+      return deleteCommentHandler({ commentId, token, userId });
+    },
+    onSuccess: () => {
+      useCustomSnackbar('Comment deleted successfully', 'success');
+    },
+    onError: (error) => {
+      useCustomSnackbar(error.message, 'error');
+      console.log(error);
+    }
+  });
 
   const addCommentHandler = (value: string, parent?: string, replyOnUser?: string) => {
-    const addNewComment = {
-      _id: Math.random().toString(),
-      user: {
-        _id: 'a',
-        name: 'Mohammad Rezaii'
-      },
-      desc: value,
-      post: '1',
-      parent: parent ?? '',
-      replyOnUser: replyOnUser ?? '',
-      createdAt: new Date().toISOString()
-    };
-    setComments((prevComments) => [...prevComments, addNewComment]);
+    mutateNewComment({ desc: value, parent, replyOnUser, token, slug });
     setAffectedComment(null);
   };
 
-  const updateCommentHandler = (value: string, commentId: string | number) => {
-    const updatedComments = comments.map((comment) => {
-      if (comment._id === commentId) {
-        return { ...comment, desc: value };
-      }
-      return comment;
-    });
-    setComments(updatedComments);
+  const updateCommentHandler = (value: string, commentId: string) => {
+    mutateUpdateComment({ desc: value, _id: commentId, token, userId });
     setAffectedComment(null);
   };
 
-  const deleteComment = (commentId: number | string) => {
-    const updatedComments = comments.filter((comment) => {
-      return comment._id !== commentId
-    });
-    setComments(updatedComments);
+  const deleteComment = (commentId: string) => {
+    mutateDeleteComment({commentId, token, userId});
   };
-
-  const getReplies = (commentId: string | number) => {
-    return comments.filter((comment) => comment.parent === commentId)
-    .sort((a, b) => {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    })
-  } 
 
   return (
     <div className={`${classname}`}>
-      <CommentForm label="Send" formSubmitHandler={(value) => addCommentHandler(value)} />
+      <CommentForm
+        label="Send"
+        formSubmitHandler={(value) => addCommentHandler(value)}
+        loading={isPending}
+      />
       <div className="space-y-4 mt-8">
-        {mainComments.map((comment) => (
+        {commentsData.map((comment) => (
           <Comment
-            key={comment._id}
+            key={comment?._id}
             comment={comment}
             loginUserId={loginUserId}
             affectedComment={affectedComment}
@@ -78,8 +99,8 @@ const CommentsContainer = ({ classname, loginUserId }: Props) => {
             addCommentHandler={addCommentHandler}
             updateCommentHandler={updateCommentHandler}
             deleteComment={deleteComment}
-            replies={getReplies(comment._id)}
-            parentId={comment.parent || ''}
+            replies={comment?.replies}
+            parentId={comment?.parent || ''}
           />
         ))}
       </div>

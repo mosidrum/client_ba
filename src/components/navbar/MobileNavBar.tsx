@@ -1,4 +1,5 @@
 import { images } from '@constants/images';
+import pathToUploadPicture from '@constants/pathToUploadPicture';
 import { paths } from '@routes/paths';
 import { NavLink } from 'customTypes';
 import React, { useState } from 'react';
@@ -9,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 type Props = {
   navLink: NavLink[];
   buttonStyle: string;
+  menuClicked: boolean;
   setMenuClicked: React.Dispatch<React.SetStateAction<boolean>>;
   showLogout: boolean;
   setShowLogout: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +23,7 @@ const MobileNavBar = ({
   showLogout,
   setShowLogout,
   setMenuClicked,
+  menuClicked,
   handleLogout
 }: Props) => {
   const userState = useSelector((state: any) => state.user);
@@ -40,7 +43,7 @@ const MobileNavBar = ({
                   setDropdown(!dropdown);
                 } else {
                   navigate(paths[link.path]);
-                  setMenuClicked(false);
+                  setMenuClicked(!menuClicked);
                 }
               }}
             >
@@ -54,7 +57,9 @@ const MobileNavBar = ({
                     link.dropdown.map((link, index: number) => (
                       <li
                         key={index}
-                        onClick={() => navigate(paths[link.path])}
+                        onClick={() => {
+                          navigate(paths[link.path]), setMenuClicked(!menuClicked);
+                        }}
                         className="hover:bg-background2 px-4 py-2 cursor-pointer"
                       >
                         {link.name}
@@ -71,7 +76,15 @@ const MobileNavBar = ({
                   onClick={() => setShowLogout(!showLogout)}
                   className="flex items-center gap-x-2"
                 >
-                  <img src={images.PostProfileImage} alt="Profile" />
+                  <img
+                    src={
+                      userState.userInfo.avatar
+                        ? pathToUploadPicture.UPLOAD_FOLDER_BASE_URL + userState.userInfo.avatar
+                        : images.noProfileImage
+                    }
+                    alt="Profile"
+                    className="h-10 w-10 rounded-full"
+                  />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
                 <div className="text-sm"> {userState.userInfo.name}</div>
@@ -79,7 +92,9 @@ const MobileNavBar = ({
             ) : (
               <div
                 className={`${buttonStyle} hover:cursor-pointer`}
-                onClick={() => navigate(paths.login)}
+                onClick={() => {
+                  navigate(paths.login), setMenuClicked(!menuClicked);
+                }}
               >
                 Sign In
               </div>
@@ -87,13 +102,17 @@ const MobileNavBar = ({
             {showLogout && (
               <ul className="absolute text-sm w-[150px] bg-background2 text-center text-primary flex flex-col justify-center gap-4 p-4 rounded-lg mt-2">
                 <li
-                  onClick={() => navigate(paths.profile)}
+                  onClick={() => {
+                    navigate(paths.profile), setMenuClicked(!menuClicked);
+                  }}
                   className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2"
                 >
                   Profile
                 </li>
                 <li
-                  onClick={handleLogout}
+                  onClick={() => {
+                    navigate(paths.index), setMenuClicked(!menuClicked), handleLogout;
+                  }}
                   className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
                 >
                   Logout

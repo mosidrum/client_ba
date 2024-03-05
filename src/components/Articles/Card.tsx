@@ -45,13 +45,13 @@ const Card = ({ classname, title, caption, user, photo, createdAt, slug }: Props
                 <span className="text-sm italic flex items-center">
                   {' '}
                   <MdVerified color="green" className="w-4 h-4" />
-                  Verified writer
+                  Verified
                 </span>
               ) : (
                 <span className="text-sm italic flex items-center">
                   {' '}
                   <GoUnverified color="red" className="w-4 h-4" />
-                  Unverified writer
+                  Unverified
                 </span>
               )}
             </div>

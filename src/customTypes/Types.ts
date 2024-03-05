@@ -11,19 +11,6 @@ export interface User extends Post {
   verified: boolean;
 }
 
-export type CommentType = {
-  _id: string;
-  user: {
-    _id: string;
-    name: string;
-  };
-  desc: string;
-  post: string;
-  parent: string | null;
-  replyOnUser: string | null;
-  createdAt: string;
-};
-
 export type AffectedCommentType = {
   type: string;
   _id: number | string;
@@ -57,8 +44,8 @@ export interface Post {
   id: string;
 }
 
-export interface Comments {
-  _id: string;
+export interface Replies {
+  _id: string ;
   user: {
     _id: string;
     avatar: string;
@@ -67,11 +54,15 @@ export interface Comments {
   desc: string;
   post: string;
   check: boolean;
-  parent: string | null;
-  replyOnUser: string | null;
+  parent: string | undefined;
+  replyOnUser: string | undefined;
   createdAt: string;
   updatedAt: string;
   __v: number;
-  replies?: Comment[];
   id: string;
+}
+
+
+export interface Comments extends Replies {
+  replies?: Replies[];
 }

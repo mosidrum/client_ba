@@ -85,13 +85,13 @@ const Navbar = () => {
           <div>
             {menuClicked ? (
               <LiaTimesCircle
-                className="absolute top-4 right-10 h-10 w-10 hover:cursor-pointer"
-                onClick={() => setMenuClicked(false)}
+                className="h-10 w-10 hover:cursor-pointer"
+                onClick={() => setMenuClicked(!menuClicked)}
               />
             ) : (
               <FaBars
                 className="w-7 h-7 hover:cursor-pointer"
-                onClick={() => setMenuClicked(true)}
+                onClick={() => setMenuClicked(!menuClicked)}
               />
             )}
           </div>
@@ -138,7 +138,7 @@ const Navbar = () => {
                     src={
                       userState.userInfo.avatar
                         ? pathToUploadPicture.UPLOAD_FOLDER_BASE_URL + userState.userInfo.avatar
-                        : images.user
+                        : images.noProfileImage
                     }
                     alt="Profile"
                     className='h-10 w-10 rounded-full'
@@ -174,6 +174,7 @@ const Navbar = () => {
       {menuClicked && (
         <MobileNavbar
           setMenuClicked={setMenuClicked}
+          menuClicked={menuClicked}
           navLink={navLink}
           buttonStyle={buttonStyle}
           showLogout={showLogout}

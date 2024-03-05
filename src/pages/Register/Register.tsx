@@ -13,6 +13,7 @@ import { Signup } from '@services/users';
 import { GlobalPopup } from '@components/GlobalPopup';
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
 import { useDispatch, useSelector } from 'react-redux';
+import { Loader } from '@components/Loader';
 
 type Props = {
   email: string;
@@ -38,7 +39,7 @@ const validationSchema = yup
 const Register = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const userState = useSelector((state: any) => state.user);
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ name, email, password }: Props) => {
       return Signup({ name, email, password });
     },
@@ -100,6 +101,13 @@ const Register = () => {
                 />
                 <button type="submit" className={`mt-4 ${buttonStyle}`}>
                   Register
+                  {isPending ? (
+                    <span className="w-8 h-8">
+                      <Loader />
+                    </span>
+                  ) : (
+                    ''
+                  )}
                 </button>
                 <div className="my-6">
                   Already have ab account?{' '}

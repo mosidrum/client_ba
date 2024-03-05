@@ -14,3 +14,4 @@ export * from './CustomSnackbarOptions';
 export * from './ProfilePicture';
 export * from './CropImage';
 export * from './Skeleton';
+export * from './Loader';

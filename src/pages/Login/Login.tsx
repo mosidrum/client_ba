@@ -13,6 +13,7 @@ import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '@store/userReducers';
 import { SignIn } from '@services/users';
+import { Loader } from '@components/Loader';
 
 type LoginProps = {
   email: string;
@@ -48,7 +49,7 @@ const Login = () => {
     mode: 'onChange'
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password }: LoginProps) => {
       return SignIn({ email, password });
     },
@@ -81,6 +82,13 @@ const Login = () => {
           </div>
           <button type="submit" className={`${buttonStyle} m-6`}>
             Login
+            {isPending ? (
+              <span className="w-8 h-8">
+                <Loader />
+              </span>
+            ) : (
+              ''
+            )}
           </button>
         </form>
       </section>

@@ -1,24 +1,21 @@
 import { images } from '@constants/images';
-import { AffectedCommentType, CommentType } from '@customTypes/Types';
+import { AffectedCommentType, Comments, Replies } from '@customTypes/Types';
 import { TbMessage } from 'react-icons/tb';
 import { MdDelete, MdOutlineEdit } from 'react-icons/md';
 import { useState } from 'react';
 import CommentForm from './CommentForm';
+import pathToUploadPicture from '@constants/pathToUploadPicture';
 
 type Props = {
-  comment: CommentType;
+  comment: Comments;
   loginUserId: string;
   affectedComment: AffectedCommentType | null;
   setAffectedComment: (value: AffectedCommentType | null) => void;
-  addCommentHandler: (
-    value: string,
-    repliedCommentId:  string,
-    replyOnUserId: string
-  ) => void;
+  addCommentHandler: (value: string, repliedCommentId: string, replyOnUserId: string) => void;
   parentId: string;
   updateCommentHandler: (value: string, commentId: string) => void;
-  deleteComment: (value: string | number) => void;
-  replies: CommentType[]
+  deleteComment: (value: string) => void;
+  replies: Replies[] | undefined;
 };
 
 const Comment = ({
@@ -50,7 +47,11 @@ const Comment = ({
   return (
     <div className="flex flex-nowrap items-start gap-x-3 bg-comment p-3 rounded-lg">
       <img
-        src={images.PostProfileImage}
+        src={
+          comment?.user?.avatar
+            ? pathToUploadPicture.UPLOAD_FOLDER_BASE_URL + comment.user.avatar
+            : images.noProfileImage
+        }
         alt="Comment image"
         className="w-9 h-9 object-cover rounded-full"
       />
@@ -90,7 +91,10 @@ const Comment = ({
                 <MdOutlineEdit className="w-4 h-auto" />
                 <span>Edit</span>
               </button>
-              <button className="flex gap-x-1 items-center" onClick={() => deleteComment(comment._id)}>
+              <button
+                className="flex gap-x-1 items-center"
+                onClick={() => deleteComment(comment._id)}
+              >
                 <MdDelete className="w-4 h-auto" />
                 <span>Delete</span>
               </button>
@@ -112,11 +116,11 @@ const Comment = ({
             formSubmitHandler={(value) => updateCommentHandler(value, comment._id)}
           />
         )}
-        {replies.length > 0 && (
-          <div className='p-1 bg-background2'>
-            {replies.map((reply) => (
+        {replies && replies.length > 0 && (
+          <div className="p-1 bg-background2">
+            {replies.map((reply, index) => (
               <Comment
-                key={reply._id}
+                key={index}
                 addCommentHandler={addCommentHandler}
                 affectedComment={affectedComment}
                 setAffectedComment={setAffectedComment}

@@ -3,7 +3,7 @@ import CommentForm from './CommentForm';
 import { getComments } from '@utils/dummy/comments';
 import Comment from './Comment';
 import { AffectedCommentType, Comments } from '@customTypes/Types';
-import { useMutation } from '@tanstack/react-query';
+import { InvalidateQueryFilters, QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import {
   createCommentType,
@@ -27,6 +27,7 @@ const CommentsContainer = ({ classname, loginUserId, commentsData, slug }: Props
   const userState = useSelector((state: any) => state.user);
   const token = userState?.userInfo?.token;
   const userId = userState?.userInfo?._id;
+  const queryClient = useQueryClient();
 
   const { mutate: mutateNewComment, isPending } = useMutation({
     mutationFn: ({ desc, parent, replyOnUser, slug, token }: createCommentType) => {
@@ -47,6 +48,7 @@ const CommentsContainer = ({ classname, loginUserId, commentsData, slug }: Props
     },
     onSuccess: () => {
       useCustomSnackbar('Comment updated successfully', 'success');
+      queryClient.invalidateQueries(['blog', slug] as InvalidateQueryFilters);
     },
     onError: (error) => {
       useCustomSnackbar(error.message, 'error');
@@ -78,7 +80,7 @@ const CommentsContainer = ({ classname, loginUserId, commentsData, slug }: Props
   };
 
   const deleteComment = (commentId: string) => {
-    mutateDeleteComment({commentId, token, userId});
+    mutateDeleteComment({ commentId, token, userId });
   };
 
   return (

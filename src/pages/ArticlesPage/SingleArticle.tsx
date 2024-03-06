@@ -5,9 +5,8 @@ import { SocialButtons } from '@components/SocialButtons';
 import { Navigation } from '@components/navbar';
 import { images } from '@constants/images';
 import { NavLink, Post } from '@customTypes/Types';
-import { getSinglePost } from '@services/posts';
+import { getAllPosts, getSinglePost } from '@services/posts';
 import { useQuery } from '@tanstack/react-query';
-import { tags } from '@utils/dummy';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import pathToUploadPicture from '@constants/pathToUploadPicture';
@@ -21,7 +20,7 @@ import parse from 'html-react-parser';
 import { ArticlesDetailsSkeleton } from '@components/Skeleton';
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
 import { useSelector } from 'react-redux';
-
+import { tags } from '@utils/dummy';
 
 const navLink: NavLink[] = [
   {
@@ -34,54 +33,37 @@ const navLink: NavLink[] = [
   }
 ];
 
-type singlePostType = Pick<Post, 'title' | 'photo' | 'caption'>;
 
-export type suggestedArticle = Pick<Post, '_id' | 'photo' | 'title' | 'createdAt'>;
-
-const exampleArticle: suggestedArticle[] = [
-  {
-    _id: 'we345djdo3k3ndnj5',
-    photo: images.PostImage,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:35.607+0000'
-  },
-  {
-    _id: 'we3459owndnj5',
-    photo: images.PostImage,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:35.607+0000'
-  },
-  {
-    _id: 'oke443dki9o59owndnj5',
-    photo: images.PostImage,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:35.607+0000'
-  }
-];
+export type suggestedArticleType = Post[];
 
 const SingleArticle = () => {
   const params = useParams();
-  const post = params.slug;
+  const slug = params.slug;
   const userState = useSelector((state: any) => state.user);
   const [category, setCategory] = useState('');
   const [body, setBody] = useState('');
 
   const { data, isLoading, error } = useQuery({
     queryFn: () => {
-      return getSinglePost(post);
+      return getSinglePost(slug);
     },
-    queryKey: ['post'],
-    staleTime: 2000
+    queryKey: ['blog', slug]
   });
-  console.log(data);
-  
+
+  const { data: suggestedArticles } = useQuery<suggestedArticleType>({
+    queryFn: () => {
+      return getAllPosts();
+    },
+    queryKey: ['post']
+  });
+
   useEffect(() => {
     if (data) {
       setBody(generateHTML(data?.body, [Italic, Text, Bold, Paragraph, Document]));
     }
   });
 
-  if(error) {
+  if (error) {
     useCustomSnackbar('Something went wrong', 'error');
   }
 
@@ -121,14 +103,14 @@ const SingleArticle = () => {
           <div>
             <SuggestedArticles
               classname="mt-8 lg:mt-0 max-w-xs"
-              data={exampleArticle}
-              tags={tags}
+              data={suggestedArticles || []}
+              tags={data?.tags}
               header="Latest Article"
             />
             <div className="mt-7 ">
               <h2 className="font-medium text-primary2 mb-4 md:text-xl">Share on:</h2>
               <SocialButtons
-                url={encodeURI('https://web.facebook.com/?_rdc=1&_rdr')}
+                url={encodeURI(window.location.href)}
                 title={encodeURIComponent('my facebook')}
               />
             </div>

@@ -1,1 +1,1 @@
-export { default as useCustomSnackbar } from './useCustomSnackbar';
+export * from './useCustomSnackbar';

@@ -5,11 +5,6 @@ export interface NavLink {
   dropdown?: NavLink[];
 }
 
-export interface User extends Post {
-  id: string;
-  name: string;
-  verified: boolean;
-}
 
 export type AffectedCommentType = {
   type: string;
@@ -66,3 +61,19 @@ export interface Replies {
 export interface Comments extends Replies {
   replies?: Replies[];
 }
+
+type NavContent = {
+  title: string;
+  link: string;
+  icon: JSX.Element;
+  id: string;
+}
+
+export type MenuItem = {
+  title: string;
+  link: string;
+  icon: JSX.Element;
+  id: string;
+  type: 'link' | 'collapse';
+  content?: NavContent[];
+};

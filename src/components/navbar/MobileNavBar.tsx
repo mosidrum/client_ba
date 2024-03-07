@@ -100,20 +100,28 @@ const MobileNavBar = ({
               </div>
             )}
             {showLogout && (
-              <ul className="absolute text-sm w-[150px] bg-background2 text-center text-primary flex flex-col justify-center gap-4 p-4 rounded-lg mt-2">
+              <ul className="absolute w-[120px] bg-background2 text-center text-primary flex flex-col justify-center gap-2 p-2 rounded-lg mt-2">
                 <li
                   onClick={() => {
                     navigate(paths.profile), setMenuClicked(!menuClicked);
                   }}
-                  className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2"
+                  className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
                 >
                   Profile
                 </li>
+                {userState?.userInfo?.admin && (
+                  <li
+                    onClick={() => {
+                      navigate(paths.admin), setMenuClicked(!menuClicked);
+                    }}
+                    className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
+                  >
+                    Dashboard
+                  </li>
+                )}
                 <li
-                  onClick={() => {
-                    navigate(paths.index), setMenuClicked(!menuClicked), handleLogout;
-                  }}
-                  className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
+                  onClick={handleLogout}
+                  className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
                 >
                   Logout
                 </li>

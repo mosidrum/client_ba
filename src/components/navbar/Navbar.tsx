@@ -69,7 +69,8 @@ const Navbar = () => {
     dispatch(logout());
     setShowLogout(false);
     useCustomSnackbar('Logged Out!', 'success');
-    navigate(paths.index);
+    setMenuClicked(false);
+    navigate(paths.login);
   };
 
   return (
@@ -141,22 +142,30 @@ const Navbar = () => {
                         : images.noProfileImage
                     }
                     alt="Profile"
-                    className='h-10 w-10 rounded-full'
+                    className="h-10 w-10 rounded-full"
                   />
                   {showLogout ? <FaAngleUp /> : <FaAngleDown />}
                 </div>
                 <p className="text-sm">{userState?.userInfo.name}</p>
                 {showLogout && (
-                  <ul className="absolute text-sm w-[300px] bg-background2 text-center text-primary flex flex-col gap-4 p-4 rounded-lg mt-2 right-0">
+                  <ul className="absolute w-[250px] bg-background2 text-center text-primary flex flex-col gap-2 p-2 rounded-lg mt-2 right-0">
                     <li
                       onClick={() => navigate(paths.profile)}
-                      className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-2"
+                      className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-2 hover:cursor-pointer"
                     >
                       Profile
                     </li>
+                    {userState.userInfo.admin && (
+                      <li
+                        onClick={() => navigate(paths.admin)}
+                        className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-2 hover:cursor-pointer"
+                      >
+                        Dashboard
+                      </li>
+                    )}
                     <li
                       onClick={handleLogout}
-                      className=" hover:bg-primary2 hover:text-background2 border border-primary2 rounded-lg p-1 hover:cursor-pointer"
+                      className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-2 hover:cursor-pointer"
                     >
                       Logout
                     </li>

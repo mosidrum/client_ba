@@ -18,5 +18,12 @@ export default {
       montserrat: ['Montserrat Alternates', 'sans - serif']
     }
   },
-  plugins: []
+  plugins: [require('daisyui')],
+
+  daisyui: {
+    themes: [], 
+    base: false,
+    styled: true,
+    utils: true,
+  }
 };

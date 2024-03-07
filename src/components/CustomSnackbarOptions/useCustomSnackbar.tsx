@@ -3,12 +3,10 @@ import { MdOutlineClose } from 'react-icons/md';
 
 type SnackbarVariant = 'default' | 'error' | 'success' | 'warning' | 'info';
 
-const useCustomSnackbar = (message: string, variant: SnackbarVariant) => {
+export const useCustomSnackbar = (message: string, variant: SnackbarVariant) => {
   return enqueueSnackbar(message, {
     variant,
     autoHideDuration: 4000,
     preventDuplicate: true,
   });
 };
-
-export default useCustomSnackbar;

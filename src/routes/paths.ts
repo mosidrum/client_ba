@@ -11,5 +11,6 @@ export const paths: { [key: string]: string } = {
   forgotPassword: '/forgotPassword',
   login: '/login',
   resetPassword: '/resetPassword',
-  profile: '/profile'
+  profile: '/profile',
+  admin: '/admin'
 };

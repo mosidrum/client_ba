@@ -5,7 +5,7 @@ type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <div className="bg-primary2 text-background2 px-5 pb-5 overflow-x-hidden">
+    <div className="bg-primary2 text-background2 px-5 pb-5 overflow-x-hidden bottom-0">
       <div className="md:flex justify-evenly items-center pt-20 gap-14">
         <div className="hidden md:flex md:flex-col md:gap-2">
           <FaBlog className="w-10 h-10" />

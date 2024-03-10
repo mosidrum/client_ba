@@ -13,7 +13,7 @@ export const ProtectedRoutes = () => {
     const token = userState?.userInfo?.token;
     if (!token) {
       logoutAction;
-      navigate(paths.index);
+      navigate(paths.login);
     }
   }, [userState, logoutAction, navigate]);
 

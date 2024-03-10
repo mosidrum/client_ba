@@ -11,6 +11,7 @@ import { ResetPassword } from '@pages/ResetPassword';
 import { Profile } from '@pages/Profile';
 import { ProtectedRoutes } from './ProtectedRoutes';
 import { Admin, AdminLayout, Comments, NewPost } from '@pages/Admin';
+import {AdminRoute} from "@routes/AdminRoute";
 
 export const AppRoutes = () => {
   return (
@@ -27,10 +28,12 @@ export const AppRoutes = () => {
           <Route path={paths.profile} element={<Profile />} />
         </Route>
       </Route>
-      <Route path={paths.admin} element={<AdminLayout />}>
-        <Route path={paths.admin} element={<Admin />} />
-        <Route path={paths.comments} element={<Comments />} />
-        <Route path={paths.newpost} element={<NewPost />} />
+      <Route path="" element={<AdminRoute />}>
+          <Route path={paths.admin} element={<AdminLayout />}>
+              <Route path={paths.admin} element={<Admin />} />
+              <Route path={paths.comments} element={<Comments />} />
+              <Route path={paths.newpost} element={<NewPost />} />
+          </Route>
       </Route>
     </Routes>
   );

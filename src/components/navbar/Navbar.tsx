@@ -12,8 +12,6 @@ import { logout } from '@store/userActions';
 import { images } from '@constants/images';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useCustomSnackbar } from '..';
-import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from '@services/users';
 import pathToUploadPicture from '@constants/pathToUploadPicture';
 
 export const navLink: NavLink[] = [
@@ -42,7 +40,8 @@ export const navLink: NavLink[] = [
   },
   {
     name: 'Register',
-    path: 'register'
+    path: 'register',
+    condition: true
   }
 ];
 
@@ -55,15 +54,6 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [showLogout, setShowLogout] = useState<boolean>(false);
 
-  const { data: profileData } = useQuery({
-    queryFn: () => {
-      const token = userState.userInfo.token;
-      return getUserProfile(token);
-    },
-    queryKey: ['profile']
-  });
-
-  const imageURL = profileData?.avatar;
 
   const handleLogout = () => {
     dispatch(logout());
@@ -99,38 +89,74 @@ const Navbar = () => {
         ) : (
           <nav className="flex gap-x-16 items-center">
             <ul className="flex gap-x-10 font-semibold">
-              {navLink.map((link, index) => (
-                <li
-                  className="hover:cursor-pointer"
-                  key={index}
-                  onClick={() => {
-                    if (link.icon) {
-                      setDropdown(!dropdown);
-                    } else {
-                      navigate(paths[link.path]);
-                    }
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <div>{link.name}</div>
-                    <div>{link.icon && (dropdown ? <FaAngleUp /> : <FaAngleDown />)}</div>
-                  </div>
-                  {link.icon && dropdown && (
-                    <ul className="absolute top-full left-100 bg-white rounded-md shadow-lg">
-                      {link.dropdown &&
-                        link.dropdown.map((link, index) => (
-                          <li
-                            key={index}
-                            onClick={() => navigate(paths[link.path])}
-                            className="hover:bg-background2 px-4 py-2 cursor-pointer"
-                          >
-                            {link.name}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
+              {userState.userInfo ? (
+                  navLink.slice(0, navLink.length - 1).map((link, index) => (
+                      <li
+                          className="hover:cursor-pointer"
+                          key={index}
+                          onClick={() => {
+                            if (link.icon) {
+                              setDropdown(!dropdown);
+                            } else {
+                              navigate(paths[link.path]);
+                            }
+                          }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div>{link.name}</div>
+                          <div>{link.icon && (dropdown ? <FaAngleUp /> : <FaAngleDown />)}</div>
+                        </div>
+                        {link.icon && dropdown && (
+                            <ul className="absolute top-full left-100 bg-white rounded-md shadow-lg">
+                              {link.dropdown &&
+                                  link.dropdown.map((link, index) => (
+                                      <li
+                                          key={index}
+                                          onClick={() => navigate(paths[link.path])}
+                                          className="hover:bg-background2 px-4 py-2 cursor-pointer"
+                                      >
+                                        {link.name}
+                                      </li>
+                                  ))}
+                            </ul>
+                        )}
+                      </li>
+                  ))
+              ) : (
+                  navLink.map((link, index) => (
+                      <li
+                          className="hover:cursor-pointer"
+                          key={index}
+                          onClick={() => {
+                            if (link.icon) {
+                              setDropdown(!dropdown);
+                            } else {
+                              navigate(paths[link.path]);
+                            }
+                          }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div>{link.name}</div>
+                          <div>{link.icon && (dropdown ? <FaAngleUp /> : <FaAngleDown />)}</div>
+                        </div>
+                        {link.icon && dropdown && (
+                            <ul className="absolute top-full left-100 bg-white rounded-md shadow-lg">
+                              {link.dropdown &&
+                                  link.dropdown.map((link, index) => (
+                                      <li
+                                          key={index}
+                                          onClick={() => navigate(paths[link.path])}
+                                          className="hover:bg-background2 px-4 py-2 cursor-pointer"
+                                      >
+                                        {link.name}
+                                      </li>
+                                  ))}
+                            </ul>
+                        )}
+                      </li>
+                  ))
+              )}
+
             </ul>
             {userState.userInfo ? (
               <div className="relative" onClick={() => setShowLogout(!showLogout)}>

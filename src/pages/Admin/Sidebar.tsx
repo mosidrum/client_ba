@@ -1,5 +1,5 @@
 import { paths } from '@routes/paths';
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { RiAdminFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { AiFillDashboard } from 'react-icons/ai';
@@ -9,6 +9,8 @@ import { NavItemCollapse, NavItemLink } from '@components/index';
 type Props = {
   toggleMenu: () => void;
   isMenuClicked: boolean;
+  largeScreen: boolean | number | null;
+  setIsMenuClicked: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const menuItems = [
@@ -21,7 +23,7 @@ const menuItems = [
   },
   {
     title: 'Comments',
-    link: `${paths.admin}/comments`,
+    link: `${paths.comments}`,
     icon: <MdOutlineInsertComment className="text-xl" />,
     id: 'comments',
     type: 'link'
@@ -31,32 +33,36 @@ const menuItems = [
     content: [
       {
         title: 'New Post',
-        link: `${paths.admin}/posts/new`,
+        link: `${paths.newpost}`,
         icon: <MdAdd />,
         id: 'newpost'
       },
       {
         title: 'Manage Post',
-        link: `${paths.admin}/posts/manage`,
+        link: `${paths.newpost}`,
         icon: <MdOutlineModeEdit />,
         id: 'managepost'
       }
     ],
     icon: <MdOutlinePostAdd className="text-xl" />,
-    id: 'post',
+    id: 'newpost' || 'managepost',
     type: 'collapse'
-  } 
+  }
 ];
 
-const Sidebar = ({ toggleMenu, isMenuClicked, largeScreen }: Props) => {
+const Sidebar = ({ toggleMenu, isMenuClicked, largeScreen, setIsMenuClicked }: Props) => {
   const [activeNavId, setActiveNavId] = useState('dashboard');
   const navigate = useNavigate();
   return (
     <>
       {isMenuClicked && (
         <div className="fixed inset-0">
-          <div className="fixed inset-0 bg-background2 opacity-70" onClick={toggleMenu} />
-          <div className="fixed top-0 bottom-0 left-0 z-50 w-3/5 overflow-y-auto bg-primary p-4 transform transition-transform duration-300 ease-in-out">
+          {!largeScreen && (
+            <div className="fixed inset-0 bg-background2 opacity-70" onClick={toggleMenu} />
+          )}
+          <div
+            className={`fixed top-0 bottom-0 left-0 z-50 ${largeScreen ? 'w-[30%]' : 'w-4/5'} overflow-y-auto bg-primary p-4 transform transition-transform duration-300 ease-in-out`}
+          >
             <RiAdminFill
               color="white"
               onClick={() => navigate(paths.index)}
@@ -74,6 +80,9 @@ const Sidebar = ({ toggleMenu, isMenuClicked, largeScreen }: Props) => {
                     id={item.id}
                     link={item.link || ''}
                     title={item.title}
+                    isMenuClicked={isMenuClicked}
+                    setIsMenuClicked={setIsMenuClicked}
+                    largeScreen={largeScreen}
                   />
                 ) : (
                   <NavItemCollapse
@@ -84,6 +93,9 @@ const Sidebar = ({ toggleMenu, isMenuClicked, largeScreen }: Props) => {
                     id={item.id}
                     content={item.content}
                     title={item.title}
+                    isMenuClicked={isMenuClicked}
+                    setIsMenuClicked={setIsMenuClicked}
+                    largeScreen={largeScreen}
                   />
                 )
               )}

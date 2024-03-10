@@ -1,5 +1,4 @@
 import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
-import { GlobalPopup } from '@components/GlobalPopup';
 import { InputField } from '@components/InputField';
 import { MainLayout } from '@components/MainLayout';
 import { ProfilePicture } from '@components/ProfilePicture';
@@ -13,7 +12,7 @@ import {
   useQuery,
   useQueryClient
 } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -54,9 +53,12 @@ const Profile = () => {
       name: '',
       email: ''
     },
-    values: isLoading
-      ? { email: '', name: '', password: '' }
-      : { email: profileData.email, name: profileData.name }
+    values: useMemo(() => {
+      return isLoading
+          ? { email: '', name: '', password: '' }
+          : { email: profileData.email, name: profileData.name }
+    }, [isLoading, profileData?.email, profileData?.name]),
+    mode: "onChange"
   });
 
   const { mutate } = useMutation({

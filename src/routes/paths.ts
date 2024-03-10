@@ -12,5 +12,7 @@ export const paths: { [key: string]: string } = {
   login: '/login',
   resetPassword: '/resetPassword',
   profile: '/profile',
-  admin: '/admin'
+  admin: '/admin',
+  comments: 'comments',
+  newpost: 'newpost',
 };

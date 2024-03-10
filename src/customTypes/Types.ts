@@ -2,6 +2,7 @@ export interface NavLink {
   name: string;
   path: string;
   icon?: boolean;
+  condition?: boolean;
   dropdown?: NavLink[];
 }
 

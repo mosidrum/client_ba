@@ -1,13 +1,17 @@
+import { Outlet } from 'react-router-dom';
 import AdminHeader from './AdminHeader';
 
-type Props = {};
-
-const Admin = (props: Props) => {
+const AdminLayout = () => {
   return (
-    <div className="flex h-screen lg:flex-row">
-      <AdminHeader />
+    <div className="md:grid md:grid-cols-3">
+      <div className="md:col-span-1">
+        <AdminHeader />
+      </div>
+      <div className="md:col-span-2">
+        <Outlet />
+      </div>
     </div>
   );
 };
 
-export default Admin;
+export default AdminLayout;

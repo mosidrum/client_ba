@@ -1,8 +1,6 @@
 import React from 'react'
 
-type Props = {}
-
-const Comments = (props: Props) => {
+const Comments = () => {
   return (
     <div>Comments</div>
   )

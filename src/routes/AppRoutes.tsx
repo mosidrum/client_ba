@@ -28,13 +28,14 @@ export const AppRoutes = () => {
           <Route path={paths.profile} element={<Profile />} />
         </Route>
       </Route>
-      <Route path="" element={<AdminRoute />}>
-          <Route path={paths.admin} element={<AdminLayout />}>
-              <Route path={paths.admin} element={<Admin />} />
-              <Route path={paths.comments} element={<Comments />} />
-              <Route path={paths.newpost} element={<NewPost />} />
-          </Route>
-      </Route>
+        <Route path="" element={<AdminRoute />}>
+            <Route path={`${paths.admin}/:id`} element={<AdminLayout />}>
+                <Route index element={<Admin />} />
+                <Route path="comments" element={<Comments />} />
+                <Route path="newpost" element={<NewPost />} />
+            </Route>
+        </Route>
+
     </Routes>
   );
 };

@@ -53,6 +53,8 @@ const Navbar = () => {
   const [menuClicked, setMenuClicked] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [showLogout, setShowLogout] = useState<boolean>(false);
+  const userId = userState?.userInfo?._id;
+  console.log(userId)
 
 
   const handleLogout = () => {
@@ -183,7 +185,7 @@ const Navbar = () => {
                     </li>
                     {userState.userInfo.admin && (
                       <li
-                        onClick={() => navigate(paths.admin)}
+                        onClick={() => navigate(`${paths.admin}/${userId}`)}
                         className=" hover:bg-primary2 text-sm hover:text-background2 border border-primary2 rounded-lg p-2 hover:cursor-pointer"
                       >
                         Dashboard

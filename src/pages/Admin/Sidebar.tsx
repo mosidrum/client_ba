@@ -16,7 +16,7 @@ type Props = {
 const menuItems = [
   {
     title: 'Dashboard',
-    link: paths.admin,
+    link: "",
     icon: <AiFillDashboard className="text-xl" />,
     id: 'dashboard',
     type: 'link'

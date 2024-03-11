@@ -5,8 +5,13 @@ import { RiAdminFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useWindowSize } from '@uidotdev/usehooks';
+import { LoggedInUser } from '@customTypes/Types';
 
-const AdminHeader = () => {
+type AdminDataType = {
+  adminData: LoggedInUser;
+};
+
+const AdminHeader = ({ adminData }: AdminDataType) => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const navigate = useNavigate();
   const windowSize = useWindowSize();
@@ -45,6 +50,7 @@ const AdminHeader = () => {
         isMenuClicked={isMenuClicked}
         largeScreen={largeScreen}
         setIsMenuClicked={setIsMenuClicked}
+        adminData={adminData}
       />
     </div>
   );

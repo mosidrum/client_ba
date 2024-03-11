@@ -54,7 +54,6 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const userId = userState?.userInfo?._id;
-  console.log(userId)
 
 
   const handleLogout = () => {

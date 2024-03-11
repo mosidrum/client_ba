@@ -65,6 +65,23 @@ export const getUserProfile = async (token: string) => {
   }
 };
 
+export const getAdmin = async(token: string, id:string | undefined) => {
+  try{
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      const {data} = await axios.get(`${serverURL}admin/${id}`, config);
+      return data;
+  }catch(error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+}
+
 export const UpdateProfile = async (token: string, name: string, email: string) => {
   try {
     const config = {

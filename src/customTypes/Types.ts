@@ -1,3 +1,12 @@
+export type LoggedInUser = {
+  id: string;
+  avatar: string;
+  admin: boolean;
+  email: string;
+  name: string;
+  verified: boolean;
+}
+
 export interface NavLink {
   name: string;
   path: string;
@@ -57,7 +66,6 @@ export interface Replies {
   __v: number;
   id: string;
 }
-
 
 export interface Comments extends Replies {
   replies?: Replies[];

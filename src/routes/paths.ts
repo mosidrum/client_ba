@@ -15,4 +15,5 @@ export const paths: { [key: string]: string } = {
   admin: '/admin',
   comments: 'comments',
   newpost: 'newpost',
+  managepost: 'managepost'
 };

@@ -1,9 +1,9 @@
 import { postServerURL } from 'api';
 import axios from 'axios';
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (searchKeyword: string) => {
   try {
-    const { data } = await axios.get(`${postServerURL}`);
+    const { data } = await axios.get(`${postServerURL}?searchKeyword=${searchKeyword}`);
     return data;
   } catch (error: any) {
     if (error.response && error.response.data.message) throw new Error(error.response.data.message);

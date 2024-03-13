@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { images } from '@constants/images';
 import { TfiSearch } from 'react-icons/tfi';
 
-
 const topics = ['Design', 'User Experience', 'User Interaction'];
+type OnSearchFunction = (term: string) => void;
 
-const Hero = () => {
+const Hero = ({ onSearch }: { onSearch: OnSearchFunction }) => {
+  const [term, setTerm] = useState<string>('');
+
+  const handleSubmit = () => {
+    onSearch(term);
+  };
+
   return (
     <section className="container pt-36 px-5 mx-auto flex flex-col lg:px-14 sm:px-5 py-5 lg:flex-row">
       <div className="mt-10 lg:w-1/2">
@@ -24,9 +30,13 @@ const Hero = () => {
               className="placeholder:font-bold font-semibold text-dark-soft placeholder:text-primary rounded-lg pl-12 pr-3 w-full py-3 focus:outline-none md:py-4"
               type="text"
               placeholder="Search article"
+              onChange={(e) => setTerm(e.target.value)}
             />
           </div>
-          <button className="w-full bg-primary text-background2 font-semibold rounded-lg px-5 py-3 md:absolute md:right-2 md:top-1/2 md:-translate-y-1/2 md:w-fit md:py-2 hover:bg-background2 hover:text-primary hover:border-2 hover:border-primary">
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-primary text-background2 font-semibold rounded-lg px-5 py-3 md:absolute md:right-2 md:top-1/2 md:-translate-y-1/2 md:w-fit md:py-2 hover:bg-background2 hover:text-primary hover:border-2 hover:border-primary"
+          >
             Search
           </button>
         </div>
@@ -34,7 +44,7 @@ const Hero = () => {
           <span className="text-dark-light font-semibold italic mt-2 lg:mt-4 lg:text-sm xl:text-base">
             Popular Tags:
           </span>
-          <ul className="flex flex-wrap gap-x-2.5 gap-y-2.5 mt-3 lg:text-sm xl:text-base">
+          <ul className="flex flex-wrap gap-x-2.5 gap-y-2.5 mt-3 lg:text-sm xl:text-base hover:cursor-pointer">
             {topics.map((topic, index) => (
               <li
                 key={index}
@@ -51,6 +61,6 @@ const Hero = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Hero
+export default Hero;

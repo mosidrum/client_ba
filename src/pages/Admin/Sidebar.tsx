@@ -43,7 +43,7 @@ const menuItems = [
       },
       {
         title: 'Manage Post',
-        link: `${paths.newpost}`,
+        link: `${paths.managepost}`,
         icon: <MdOutlineModeEdit />,
         id: 'managepost'
       }
@@ -61,7 +61,7 @@ const Sidebar = ({ toggleMenu, isMenuClicked, largeScreen, setIsMenuClicked, adm
   return (
     <>
       {isMenuClicked && (
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 z-50">
           {!largeScreen && (
             <div className="fixed inset-0 bg-background2 opacity-70" onClick={toggleMenu} />
           )}

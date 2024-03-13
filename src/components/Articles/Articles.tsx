@@ -9,12 +9,14 @@ import { Post } from '@customTypes/Types';
 import { ArticlesPage } from '@pages/ArticlesPage';
 import { Alert, ArticlesSkeleton } from '..';
 
-type Props = {};
+type Props = {
+  searchTerm: string;
+};
 
-const Articles = (props: Props) => {
+const Articles = ({searchTerm}: Props) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['posts'],
-    queryFn: getAllPosts
+    queryFn: () => getAllPosts(searchTerm)
   });
   useEffect(() => {
     if (isError) {

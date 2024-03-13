@@ -1,6 +1,6 @@
 import { FaBlog, FaBars, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { LiaTimesCircle } from 'react-icons/lia';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '@routes/paths';
 import { onMobileScreen } from '@hooks/onMobileScreen';
@@ -55,14 +55,20 @@ const Navbar = () => {
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const userId = userState?.userInfo?._id;
 
-
   const handleLogout = () => {
+    localStorage.removeItem('userInfo');
     dispatch(logout());
     setShowLogout(false);
     useCustomSnackbar('Logged Out!', 'success');
     setMenuClicked(false);
     navigate(paths.login);
   };
+
+  useEffect(() => {
+    if (!userState?.userInfo) {
+      dispatch(logout())
+    }
+  }, [userState]);
 
   return (
     <section>

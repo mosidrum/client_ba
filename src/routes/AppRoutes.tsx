@@ -10,7 +10,7 @@ import { Login } from '@pages/Login';
 import { ResetPassword } from '@pages/ResetPassword';
 import { Profile } from '@pages/Profile';
 import { ProtectedRoutes } from './ProtectedRoutes';
-import { Admin, AdminLayout, Comments, NewPost } from '@pages/Admin';
+import { Admin, AdminLayout, Comments, ManagePost, NewPost } from '@pages/Admin';
 import {AdminRoute} from "@routes/AdminRoute";
 
 export const AppRoutes = () => {
@@ -28,11 +28,12 @@ export const AppRoutes = () => {
           <Route path={paths.profile} element={<Profile />} />
         </Route>
       </Route>
-        <Route path="" element={<AdminRoute />}>
+        <Route path={paths.index} element={<AdminRoute />}>
             <Route path={`${paths.admin}/:id`} element={<AdminLayout />}>
                 <Route index element={<Admin />} />
                 <Route path="comments" element={<Comments />} />
                 <Route path="newpost" element={<NewPost />} />
+                <Route path="managepost" element={<ManagePost />} />
             </Route>
         </Route>
 

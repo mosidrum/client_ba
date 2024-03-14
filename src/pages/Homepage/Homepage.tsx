@@ -5,12 +5,12 @@ import { MainLayout } from '@components/MainLayout';
 import React, { useState } from 'react';
 
 const Homepage = () => {
-
+  const [searchTerm, setSearchTerm] = useState('');
   return (
     <>
       <MainLayout>
-        <Hero />
-        <Articles />
+        <Hero setSearchTerm={setSearchTerm} />
+        <Articles searchTerm={searchTerm} />
       </MainLayout>
       <Action />
     </>

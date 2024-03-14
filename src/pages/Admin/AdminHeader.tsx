@@ -34,9 +34,7 @@ const AdminHeader = ({ adminData }: AdminDataType) => {
       <div onClick={() => navigate(paths.index)}>
         <RiAdminFill className="w-12 h-12" />
       </div>
-      {largeScreen ? (
-        <></>
-      ) : (
+      {!largeScreen && (
         <div className="cursor-pointer">
           {isMenuClicked ? (
             <VscClose className="h-10 w-10" onClick={toggleMenu} />

@@ -3,13 +3,21 @@ import { images } from '@constants/images';
 import { TfiSearch } from 'react-icons/tfi';
 
 const topics = ['Design', 'User Experience', 'User Interaction'];
+type Props = {
+  setSearchTerm: (value: string) => void;
+}
 
-const Hero = () => {
-  const [term, setTerm] = useState<string>('');
+const Hero = ({setSearchTerm}: Props) => {
+  const [term, setTerm] = useState('');
 
-  const handleSubmit = () => {
-    console.log(term);
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+    setTerm(e.target.value)
   };
+
+  const handleSearch = () => {
+    setSearchTerm(term);
+  }
 
   return (
     <section className="container pt-36 px-5 mx-auto flex flex-col lg:px-14 sm:px-5 py-5 lg:flex-row">
@@ -29,11 +37,11 @@ const Hero = () => {
               className="placeholder:font-bold font-semibold text-dark-soft placeholder:text-primary rounded-lg pl-12 pr-3 w-full py-3 focus:outline-none md:py-4"
               type="text"
               placeholder="Search article"
-              onChange={(e) => setTerm(e.target.value)}
+              onChange={handleSubmit}
             />
           </div>
           <button
-            onClick={handleSubmit}
+            onClick={handleSearch}
             className="w-full bg-primary text-background2 font-semibold rounded-lg px-5 py-3 md:absolute md:right-2 md:top-1/2 md:-translate-y-1/2 md:w-fit md:py-2 hover:bg-background2 hover:text-primary hover:border-2 hover:border-primary"
           >
             Search

@@ -84,7 +84,7 @@ const Login = () => {
             Login
             {isPending ? (
               <span className="w-8 h-8">
-                <Loader />
+                <Loader color="#fef5f6" />
               </span>
             ) : (
               ''

@@ -8,11 +8,19 @@ import { useQuery } from '@tanstack/react-query';
 import { AllPost, Post } from '@customTypes/Types';
 import { ArticlesSkeleton } from '..';
 
-const Articles = () => {
-  const { data, isLoading, isError } = useQuery({
+type Props = {
+  searchTerm: string;
+}
+
+const Articles = ({searchTerm}: Props) => {
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['posts'],
-    queryFn: () => getAllPosts()
+    queryFn: () => getAllPosts(searchTerm)
   });
+
+  useEffect(() => {
+    refetch()
+  }, [searchTerm])
 
   useEffect(() => {
     if (isError) {

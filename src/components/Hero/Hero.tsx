@@ -3,13 +3,12 @@ import { images } from '@constants/images';
 import { TfiSearch } from 'react-icons/tfi';
 
 const topics = ['Design', 'User Experience', 'User Interaction'];
-type OnSearchFunction = (term: string) => void;
 
-const Hero = ({ onSearch }: { onSearch: OnSearchFunction }) => {
+const Hero = () => {
   const [term, setTerm] = useState<string>('');
 
   const handleSubmit = () => {
-    onSearch(term);
+    console.log(term);
   };
 
   return (

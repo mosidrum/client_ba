@@ -1,13 +1,30 @@
-import React from 'react'
+import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
+import { images } from '@constants/images';
+import pathToUploadPicture from '@constants/pathToUploadPicture';
+import { AllPost } from '@customTypes/Types';
+import { getAllPosts } from '@services/posts';
+import { useQuery } from '@tanstack/react-query';
+import { formatDate } from '@utils/functions';
+import React, { useEffect, useState } from 'react';
 
-type Props = {}
+type Props = {};
 
 const ManagePost = (props: Props) => {
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => getAllPosts()
+  });
+
+  const posts = (data as AllPost);
+
   return (
-    <div className="container max-w-3xl px-4 mx-auto sm:px-8">
+    <div className="w-full px-4 mx-auto">
       <div className="py-8">
-        <div className="flex flex-row justify-between w-full md:hidden mb-1 sm:mb-0">
-          <h2 className="text-2xl leading-tight">User</h2>
+        <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
+          <h2 className="text-2xl leading-tight font-semibold">Manage Post</h2>
           <div className="text-end">
             <form className="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0">
               <div className=" relative ">
@@ -15,11 +32,13 @@ const ManagePost = (props: Props) => {
                   type="text"
                   id='"form-subscribe-Filter'
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="name"
+                  placeholder="Post title..."
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  value={searchKeyword}
                 />
               </div>
               <button
-                className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
+                className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-primary rounded-lg shadow-mdfocus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
                 type="submit"
               >
                 Filter
@@ -29,194 +48,99 @@ const ManagePost = (props: Props) => {
         </div>
         <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
           <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
-            <table className="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                  >
-                    User
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                  >
-                    Role
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                  >
-                    Created at
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                  >
-                    status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                  ></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <a href="#" className="relative block">
-                          <img
-                            alt="profil"
-                            src="/images/person/8.jpg"
-                            className="mx-auto object-cover rounded-full h-10 w-10 "
-                          />
+            {isLoading || isFetching ? (
+              <div>
+                <div className="text-center py-10 w-full">Loading...</div>
+              </div>
+            ) : (
+              <table className="min-w-full leading-normal">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-sm text-left bg-white border-b border-gray-200"
+                    >
+                      Title
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-sm text-primary text-left bg-white border-b border-gray-200"
+                    >
+                      Category
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-sm text-primary text-left bg-white border-b border-gray-200"
+                    >
+                      Created at
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-sm text-primary text-left bg-white border-b border-gray-200"
+                    >
+                      Tags
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-sm text-primary text-left bg-white border-b border-gray-200"
+                    ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {posts?.data.map((post) => (
+                    <tr key={post._id}>
+                      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0">
+                            <a href="#" className="relative block">
+                              <img
+                                alt="profil"
+                                src={
+                                  post.photo
+                                    ? pathToUploadPicture.UPLOAD_FOLDER_BASE_URL + post.photo
+                                    : images.noPostImage
+                                }
+                                className="mx-auto object-cover rounded-full h-10 w-10 "
+                              />
+                            </a>
+                          </div>
+                          <div className="ml-3">
+                            <p className="text-primary font-bold whitespace-no-wrap">{post.title}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <p className="text-primary whitespace-no-wrap">
+                          {post.categories.length > 0 ? post.categories[0] : 'No category'}
+                        </p>
+                      </td>
+                      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <p className="text-primary whitespace-no-wrap">
+                          {formatDate(post.createdAt)}
+                        </p>
+                      </td>
+                      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        {post.tags.length > 0 ? post.tags.map((tag, index) => (
+                          <span key={index} className="relative inline-block px-3 py-1 text-sm leading-tight text-background2 m-0.5">
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0 bg-primary rounded-full"
+                            ></span>
+                            <span className="relative">{tag}</span>
+                          </span>
+                        )) : 'No tags'}
+                      </td>
+                      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                          Edit
                         </a>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">Jean marc</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">12/09/2020</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                      ></span>
-                      <span className="relative">active</span>
-                    </span>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <a href="#" className="relative block">
-                          <img
-                            alt="profil"
-                            src="/images/person/9.jpg"
-                            className="mx-auto object-cover rounded-full h-10 w-10 "
-                          />
-                        </a>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">Marcus coco</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">Designer</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">01/10/2012</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                      ></span>
-                      <span className="relative">active</span>
-                    </span>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <a href="#" className="relative block">
-                          <img
-                            alt="profil"
-                            src="/images/person/10.jpg"
-                            className="mx-auto object-cover rounded-full h-10 w-10 "
-                          />
-                        </a>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">Ecric marc</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">Developer</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">02/10/2018</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                      ></span>
-                      <span className="relative">active</span>
-                    </span>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <a href="#" className="relative block">
-                          <img
-                            alt="profil"
-                            src="/images/person/6.jpg"
-                            className="mx-auto object-cover rounded-full h-10 w-10 "
-                          />
-                        </a>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">Julien Huger</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">User</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <p className="text-gray-900 whitespace-no-wrap">23/09/2010</p>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                      ></span>
-                      <span className="relative">active</span>
-                    </span>
-                  </td>
-                  <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                    <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+
             <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
               <div className="flex items-center">
                 <button
@@ -280,6 +204,6 @@ const ManagePost = (props: Props) => {
       </div>
     </div>
   );
-}
+};
 
-export default ManagePost
+export default ManagePost;

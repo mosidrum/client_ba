@@ -26,6 +26,14 @@ export type SocialMediaType = {
   title: string;
 }
 
+interface CustomHeaders {
+  'x-filter'?: string;
+  'x-totalCount'?: string;
+  'x-currentpage'?: string;
+  'x-pagesize'?: string;
+  'x-totalpagecount'?: string;
+}
+
 export interface Post {
   _id: string;
   title: string;
@@ -41,12 +49,18 @@ export interface Post {
     avatar: string;
     name: string;
     verified: boolean;
+    admin?: boolean;
   };
   tags: string[];
   categories: string[];
   createdAt: string;
   updatedAt: string;
   id: string;
+}
+
+export interface AllPost {
+  data: Post[];
+  headers: CustomHeaders;
 }
 
 export interface Replies {

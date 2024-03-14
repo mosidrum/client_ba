@@ -5,17 +5,12 @@ import { MainLayout } from '@components/MainLayout';
 import React, { useState } from 'react';
 
 const Homepage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
 
   return (
     <>
       <MainLayout>
-        <Hero onSearch={handleSearch} />
-        <Articles searchTerm={searchTerm} />
+        <Hero />
+        <Articles />
       </MainLayout>
       <Action />
     </>

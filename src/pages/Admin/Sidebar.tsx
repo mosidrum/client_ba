@@ -14,7 +14,7 @@ type Props = {
   isMenuClicked: boolean;
   largeScreen: boolean | number | null;
   setIsMenuClicked: React.Dispatch<SetStateAction<boolean>>;
-  adminData: LoggedInUser;
+  adminData: LoggedInUser | null;
 };
 
 const menuItems = [

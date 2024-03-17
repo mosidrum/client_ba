@@ -15,3 +15,5 @@ export * from './ProfilePicture';
 export * from './CropImage';
 export * from './Skeleton';
 export * from './Loader';
+export * from './Pagination';
+export * from './NotFound';

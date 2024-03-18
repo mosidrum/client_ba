@@ -19,7 +19,7 @@ const ManagePost = (props: Props) => {
     queryFn: () => getAllPosts(searchKeyword, currentPage)
   });
 
-  const posts = data as AllPost;
+  const posts = (data?.data as AllPost) || [];
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -102,8 +102,8 @@ const ManagePost = (props: Props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {posts.data.length > 0 ? (
-                    posts?.data.map((post) => (
+                  {posts?.posts?.length > 0 ? (
+                    posts?.posts.map((post) => (
                       <tr key={post._id}>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <div className="flex items-center">

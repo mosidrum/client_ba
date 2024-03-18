@@ -59,8 +59,8 @@ export interface Post {
 }
 
 export interface AllPost {
-  data: Post[];
-  headers: CustomHeaders;
+  posts: Post[];
+  totalCount: number;
 }
 
 export interface Replies {

@@ -21,7 +21,7 @@ const SuggestedArticles = ({ classname, header, data, tags }: Props) => {
       <div>
         <h2 className="font-medium text-primary md:text-xl">{header}</h2>
         <div className="grid gap-y-5 mt-5 md:gap-x-5 lg:grid-cols-1">
-          {data?.data?.slice(0, 5).map((item) => (
+          {data?.data.posts.slice(0, 5).map((item) => (
             <div key={item._id} className="flex space-x-3 flex-nowrap items-center">
               <img
                 src={

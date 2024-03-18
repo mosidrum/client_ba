@@ -6,7 +6,7 @@ import { useCustomSnackbar } from '@components/CustomSnackbarOptions';
 import { getAllPosts } from '@services/posts';
 import { useQuery } from '@tanstack/react-query';
 import { AllPost, Post } from '@customTypes/Types';
-import { ArticlesSkeleton } from '..';
+import { ArticlesSkeleton } from '@components/Skeleton';
 
 type Props = {
   searchTerm: string;
@@ -28,7 +28,7 @@ const Articles = ({searchTerm}: Props) => {
       useCustomSnackbar('Failed to fetch posts', 'error');
     }
   }, [isError, data]);
-  const posts = (data as AllPost) || {};
+  const posts = (data?.data as AllPost) || [];
 
   return (
     <section className="flex flex-col container  mx-auto px-5 sm:px-5 py-10">
@@ -36,7 +36,7 @@ const Articles = ({searchTerm}: Props) => {
         {isLoading ? (
           [...Array(3)].map((item, index) => <ArticlesSkeleton key={index} classname="max-w-md" />)
         ) : (
-          posts.data.map((post: Post) => (
+          posts?.posts.map((post: Post) => (
             <Card
               key={post._id}
               classname="max-w-md"
